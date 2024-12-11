@@ -1,0 +1,32 @@
+# Base image
+FROM ubuntu:22.04
+
+# Define work directory
+WORKDIR /usr/src/server
+
+# Copy server files
+COPY ./game-build .
+
+# Expose ports
+EXPOSE 4550/tcp
+EXPOSE 4550/udp
+
+# Install dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nano \
+    ca-certificates \
+    curl \
+    jq \
+    git \
+    iputils-ping \
+    libcurl4 \
+    libicu70 \
+    libunwind8 \
+    netcat \
+    libssl3
+
+# Ensure the binary has execute permissions
+RUN chmod +x ./server.x86_64
+
+# Set the server binary as the entrypoint
+ENTRYPOINT ["./server.x86_64"]

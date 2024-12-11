@@ -1,0 +1,13 @@
+services:
+  nestjs_prod:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.prod
+    image: indiegabo/${APP_NAME:-nestjs}-prod
+    ports:
+      - "${PORT:-3000}:3000"
+    volumes:
+      - ./src:/usr/src/app/src
+    environment:
+      - PORT=${PORT:-3000}
+      - NODE_ENV=production
