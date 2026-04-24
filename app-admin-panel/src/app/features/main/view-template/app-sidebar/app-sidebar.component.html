@@ -1,0 +1,89 @@
+<div
+  [@grow]="expansionState"
+  #sidebar
+  id="sidebar-wrapper"
+  class="bg-5 mat-elevation-z8 layout-column"
+>
+  <div
+    class="collapse-button-container full-width"
+    class="layout-row full-width"
+    [ngClass]="
+      expansionState === 'expanded' ? 'align-end-center' : 'align-center-center'
+    "
+  >
+    <button mat-icon-button (click)="toggleExpansion()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+
+  <hr class="separator" />
+
+  <!-- Render each section -->
+  @for (
+    section of sections;
+    track trackByIndex($index, section);
+    let last = $last
+  ) {
+    <div class="section" [class.last]="last">
+      <!-- Section header only when expanded -->
+      @if (section.header && expansionState === "expanded") {
+        <div class="section-header p-05-em">
+          <div class="layout-row align-start-center gap-1">
+            @if (section.header.icon) {
+              <fa-icon
+                [icon]="[section.header.icon.style, section.header.icon.name]"
+              ></fa-icon>
+            }
+            <div>
+              <h2 class="headline-3">{{ section.header.title }}</h2>
+              @if (section.header.subtitle) {
+                <h3 class="subtitle-1">
+                  {{ section.header.subtitle }}
+                </h3>
+              }
+            </div>
+          </div>
+        </div>
+      }
+
+      <div
+        class="navigation-container p-05-em layout-column"
+        [ngClass]="
+          expansionState === 'expanded'
+            ? 'align-start-start'
+            : 'align-center-center'
+        "
+      >
+        @if (expansionState === "expanded") {
+          <ng-container>
+            @for (item of section.items; track trackByIndex($index, item)) {
+              <app-navigation-item class="full-width" [item]="item" [depth]="0">
+              </app-navigation-item>
+            }
+          </ng-container>
+        }
+
+        @if (expansionState === "collapsed") {
+          <ng-container>
+            @for (item of section.items; track trackByIndex($index, item)) {
+              <app-navigation-item-short [item]="item" [depth]="0">
+              </app-navigation-item-short>
+            }
+          </ng-container>
+        }
+      </div>
+    </div>
+  }
+
+  <div class="frs"></div>
+
+  <hr class="separator" />
+
+  <div
+    class="sign-out-container full-width p-05-em layout-row align-center-center"
+  >
+    @if (expansionState === "expanded") {
+      <span>Sidebar Footer</span>
+    }
+  </div>
+</div>

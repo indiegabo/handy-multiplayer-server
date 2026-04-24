@@ -1,0 +1,13 @@
+#top-bar-container {
+  background-color: var(--dark-bg-lighter-5);
+}
+
+#main-top-bar {
+  z-index: 30;
+  max-height: var(--project-header-height);
+  padding: 8px;
+}
+
+.logo img {
+  height: 40px;
+}

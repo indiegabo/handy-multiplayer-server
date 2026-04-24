@@ -1,0 +1,33 @@
+<button
+  mat-button
+  class="handy-button"
+  [class.g-border]="bordered"
+  [color]="color"
+  [class.no-color]="color === 'none'"
+  [class.primary-color]="color === 'primary'"
+  [disabled]="disabled"
+  (click)="toggled$.emit()"
+>
+  @if (shouldBeActive) {
+<div class="layout-row align-start-center gap-0-5">
+    @if (activeIcon) {
+<fa-icon
+      class="handy-icon"
+      [icon]="activeIcon"
+    ></fa-icon>
+}
+    <span>{{ activeLabel }}</span>
+  </div>
+}
+  @if (!shouldBeActive) {
+<div class="layout-row align-start-center gap-0-5">
+    @if (inactiveIcon) {
+<fa-icon
+      class="handy-icon"
+      [icon]="inactiveIcon"
+    ></fa-icon>
+}
+    <span>{{ inactiveLabel }}</span>
+  </div>
+}
+</button>

@@ -1,0 +1,77 @@
+<div class="wrapper layout-column align-center-center">
+  <!-- Initial loader / preparing -->
+  @if (currentState === 'preparing' || loadingStart) {
+<div
+    class="loader-pulsing"
+  ></div>
+}
+
+  <!-- Creating admin state (form) -->
+  @if (currentState === 'creating' && startData) {
+<handy-card
+    class="admin-creation-card"
+    [expandHorizontally]="true"
+  >
+    <handy-card-header>
+      <h2 class="headline-1 mb-05-em">Create Administrator Account</h2>
+      <p class="subtitle-1">
+        Set up your credentials and link your authenticator app
+      </p>
+    </handy-card-header>
+
+    <handy-card-body>
+      <app-create-admin-form
+        [startData]="startData"
+        [loading]="creating"
+        (submitted$)="onAdminFormSubmitted($event)"
+      >
+      </app-create-admin-form>
+    </handy-card-body>
+  </handy-card>
+}
+
+  <!-- Done -->
+  @if (currentState === 'done') {
+<handy-card
+    class="admin-creation-card"
+    [expandHorizontally]="true"
+  >
+    <handy-card-header>
+      <h2 class="headline-1 mb-05-em">All Set</h2>
+      <p class="subtitle-1">Time to download your backup codes!</p>
+    </handy-card-header>
+
+    <handy-card-body>
+      <div class="p-1-em">
+        <h2 class="headline-2 mb-05-em">Backup Codes</h2>
+        <h2 class="subtitle-1 mb-05-em">
+          This is the only time we will show this to you. Please store them
+          somewhere safe.
+        </h2>
+
+        <handy-container>
+          <div
+            class="backup-codes-container full-width p-1-em mb-05-em layout-column"
+          >
+            @for (code of backupCodes; track trackByIndex($index, code)) {
+<div>
+              <span class="backup-code">{{ code }}</span>
+            </div>
+}
+          </div>
+
+          <div class="actions layout-row align-end-center">
+            <handy-button (actionSent)="downloadBackupCodes()">
+              Download .txt
+            </handy-button>
+          </div>
+        </handy-container>
+
+        <div class="actions layout-row align-end-center">
+          <handy-button (actionSent)="navigateToLogin()"> Login </handy-button>
+        </div>
+      </div>
+    </handy-card-body>
+  </handy-card>
+}
+</div>

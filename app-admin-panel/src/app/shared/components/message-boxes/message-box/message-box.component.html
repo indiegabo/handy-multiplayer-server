@@ -1,0 +1,22 @@
+<div
+  class="warning lung-border border-radius-5 bg-10 p-05-em full-width layout-row gap-1 align-start-center"
+>
+  <div class="icon-container">
+    <mat-icon
+      [class.icon-info]="type === 'info'"
+      [class.icon-success]="type === 'success'"
+      [class.icon-warning]="type === 'warning'"
+      [class.icon-error]="type === 'error'"
+      class="icon"
+    >
+      {{ iconName || "warning" }}
+    </mat-icon>
+  </div>
+
+  <div class="texts layout-column gap-0-5">
+    <h2 class="headline-3">{{ title }}</h2>
+    <div class="message">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

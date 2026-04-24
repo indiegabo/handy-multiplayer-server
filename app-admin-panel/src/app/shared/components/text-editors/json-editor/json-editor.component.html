@@ -1,0 +1,15 @@
+<div class="json-editor layout-column gap-0-5">
+  <div #jsonEditorContainer class="json-editor-container"></div>
+
+  <div class="helper-text">
+    @if (!isInReadOnlyMode()) {
+      <small>{{ helperText }}</small>
+    }
+
+    @if (isInReadOnlyMode()) {
+      <small class="readonly-notice">
+        {{ readOnlyHelperText }}
+      </small>
+    }
+  </div>
+</div>

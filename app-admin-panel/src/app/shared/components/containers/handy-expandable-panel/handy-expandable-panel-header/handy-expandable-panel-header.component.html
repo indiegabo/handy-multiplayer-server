@@ -1,0 +1,23 @@
+<div
+  class="handy-expandable-panel-header bg-5 p-05-em layout-row align-space-between-center"
+  [class.clickable]="!panel?.expandThroughToggle"
+  (click)="evaluateContainerClick()"
+>
+  <div class="flex-1-0">
+    <ng-content></ng-content>
+  </div>
+  @if (panel?.expandThroughToggle && !panel?.hideToggle) {
+<button
+    mat-icon-button
+    class="handy-icon-button-tiny"
+    [disabled]="this.panel?.disabled"
+    (click)="evaluateToggleClick()"
+  >
+    <fa-icon
+      [@rotate]="state"
+      class="handy-icon-tiny"
+      [icon]="['fas', 'chevron-up']"
+    ></fa-icon>
+  </button>
+}
+</div>

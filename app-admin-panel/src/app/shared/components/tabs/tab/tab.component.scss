@@ -1,0 +1,52 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.app-tab {
+  height: 100%;
+}
+
+:host.cdk-drag .app-tab {
+  cursor: grab;
+}
+
+:host.cdk-drag-dragging .app-tab {
+  cursor: grabbing;
+}
+
+.app-tab-drag-placeholder {
+  display: block;
+  min-width: 120px;
+  height: 30px;
+  border: 2px dashed var(--primary-color);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.app-tab.active {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.app-tab.active .mdc-button__label {
+  color: var(--primary-color) !important;
+}
+
+.mat-mdc-button > .mat-icon {
+  width: 1.25em;
+}
+
+.fa-icon.active {
+  color: var(--primary-color) !important;
+}
+
+.app-tab-label {
+  font-size: 12px;
+}
+
+.app-tab-icon {
+  margin-right: 0.5em;
+}

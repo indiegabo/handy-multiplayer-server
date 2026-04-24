@@ -1,0 +1,16 @@
+button {
+  width: 100%;
+}
+
+.g-button.no-color {
+  color: var(--light-primary-text);
+  border-color: var(--thin-border-color);
+}
+
+.g-button.primary-color {
+  border-color: var(--primary-darker-color);
+}
+
+.g-button.primary-color[disabled] {
+  border-color: var(--thin-border-color);
+}

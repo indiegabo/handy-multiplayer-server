@@ -1,0 +1,101 @@
+<h2 class="page-subtitle">{{ "translater.title" | translate }}:</h2>
+
+<mat-tab-group mat-align-tabs="start" animationDuration="0ms">
+  <form [formGroup]="translationsForm">
+    @for (
+      translationForm of translations.controls;
+      track trackByIndex($index, translationForm);
+      let i = $index
+    ) {
+      <ng-container formArrayName="translations">
+        <mat-tab
+          [formGroupName]="i"
+          [label]="tabName(translations.at(i).value)"
+        >
+          <div class="container-ns layout-column align-start-start">
+            <div class="form-group layout-row">
+              <!-- title -->
+              <mat-form-field
+                color="primary"
+                appearance="outline"
+                class="flex-100"
+              >
+                <mat-label>
+                  {{ "translater.form.labels.title" | translate }}
+                </mat-label>
+                <input
+                  matInput
+                  class="flex-100"
+                  type="text"
+                  name="title"
+                  formControlName="title"
+                  [placeholder]="
+                    'translater.form.placeholders.title' | translate
+                  "
+                  (change)="changed()"
+                />
+                @if (
+                  translations.at(i).hasError("minlength") ||
+                  translations.hasError("maxlength")
+                ) {
+                  <mat-error color="accent">
+                    {{
+                      "general.forms.errors.between"
+                        | translate: { min: 2, max: 25 }
+                    }}
+                  </mat-error>
+                }
+                @if (translations.at(i).hasError("required")) {
+                  <mat-error color="accent">
+                    {{ "translater.form.errors.title.required" | translate }}
+                  </mat-error>
+                }
+              </mat-form-field>
+            </div>
+            <div class="form-group layout-row">
+              <!-- description -->
+              <mat-form-field
+                color="primary"
+                appearance="outline"
+                class="flex-100"
+              >
+                <mat-label>
+                  {{ "translater.form.labels.description" | translate }}
+                </mat-label>
+                <textarea
+                  class="form-textarea flex-100"
+                  matInput
+                  type="text"
+                  name="description"
+                  formControlName="description"
+                  [placeholder]="
+                    'translater.form.placeholders.description' | translate
+                  "
+                  (change)="changed()"
+                ></textarea>
+                @if (
+                  translations.at(i).hasError("minlength") ||
+                  translations.hasError("maxlength")
+                ) {
+                  <mat-error color="accent">
+                    {{
+                      "general.forms.errors.between"
+                        | translate: { min: 2, max: 25 }
+                    }}
+                  </mat-error>
+                }
+                @if (translations.at(i).hasError("required")) {
+                  <mat-error color="accent">
+                    {{
+                      "translater.form.errors.description.required" | translate
+                    }}
+                  </mat-error>
+                }
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-tab>
+      </ng-container>
+    }
+  </form>
+</mat-tab-group>

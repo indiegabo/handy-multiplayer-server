@@ -1,0 +1,155 @@
+<!--
+  System Status Monitor
+
+  Renders a compact dashboard with:
+  - Current status badge and label
+  - Action buttons with fine-grained busy states
+  - Contextual actions based on the status
+-->
+
+<div class="monitor-container p-1-em">
+  <!-- Header: Status Overview -->
+  <div class="header handy-border border-radius-5">
+    <div class="title-row layout-row align-start-center">
+      <h2 class="title">System Status</h2>
+
+      @if (vm$ | async; as vm) {
+<ng-container>
+        <span class="{{ vm.badgeClass }}">{{ vm.entry.readableStatus }}</span>
+      </ng-container>
+}
+    </div>
+
+    <div class="subtitle">
+      Realtime updates via socket; HTTP used for control commands.
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions handy-border border-radius-5">
+    <div class="section-title">Maintenance Controls</div>
+
+    @if (vm$ | async; as vm) {
+<ng-container>
+      <!-- When system is Up: allow start maintenance (immediate or with prep) -->
+      @if (vm.isUp) {
+<div
+        class="btn-row layout-row align-start-center gap-0-5"
+      >
+        <handy-button
+          aria-label="Start maintenance now"
+          [bordered]="false"
+          [disabled]="startBusy$ | async"
+          (actionSent)="startMaintenanceNow()"
+        >
+          <div class="btn-content layout-row gap-0-5">
+            <span class="btn-label">Start Now</span>
+            @if (startBusy$ | async) {
+<span
+              class="spinner"
+              aria-hidden="true"
+            ></span>
+}
+          </div>
+        </handy-button>
+
+        <handy-button
+          aria-label="Start maintenance with 60s preparation"
+          [bordered]="true"
+          [disabled]="startPrepBusy$ | async"
+          (actionSent)="startMaintenanceWithPrep()"
+        >
+          <div class="btn-content layout-row gap-0-5">
+            <span class="btn-label">Start in 60s</span>
+            @if (startPrepBusy$ | async) {
+<span
+              class="spinner"
+              aria-hidden="true"
+            ></span>
+}
+          </div>
+        </handy-button>
+      </div>
+}
+
+      <!-- When preparing: allow cancel preparation -->
+      @if (vm.isPreparing) {
+<div
+        class="btn-row layout-row align-start-center gap-0-5"
+      >
+        <handy-button
+          aria-label="Cancel preparation"
+          [bordered]="true"
+          color="warn"
+          [disabled]="cancelPrepBusy$ | async"
+          (actionSent)="cancelPreparation()"
+        >
+          <div class="btn-content layout-row gap-0-5">
+            <span class="btn-label">Cancel Preparation</span>
+            @if (cancelPrepBusy$ | async) {
+<span
+              class="spinner"
+              aria-hidden="true"
+            ></span>
+}
+          </div>
+        </handy-button>
+      </div>
+}
+
+      <!-- When under maintenance: allow end -->
+      @if (vm.isUnder) {
+<div
+        class="btn-row layout-row align-start-center gap-0-5"
+      >
+        <handy-button
+          aria-label="End maintenance"
+          [bordered]="false"
+          color="primary"
+          [disabled]="endBusy$ | async"
+          (actionSent)="endMaintenance()"
+        >
+          <div class="btn-content layout-row gap-0-5">
+            <span class="btn-label">End Maintenance</span>
+            @if (endBusy$ | async) {
+<span
+              class="spinner"
+              aria-hidden="true"
+            ></span>
+}
+          </div>
+        </handy-button>
+      </div>
+}
+
+      <!-- Degraded hint -->
+      @if (vm.isDegraded && !vm.isUnder && !vm.isPreparing) {
+<div
+        class="hint degraded"
+      >
+        System is degraded. Some operations may be unavailable.
+      </div>
+}
+    </ng-container>
+}
+  </div>
+
+  <!-- Status details -->
+  <div class="details handy-border border-radius-5">
+    <div class="section-title">Details</div>
+
+    @if (vm$ | async; as vm) {
+<ng-container>
+      <div class="kv">
+        <div class="k">Readable Status</div>
+        <div class="v">{{ vm.entry.readableStatus }}</div>
+      </div>
+
+      <div class="kv">
+        <div class="k">Raw Code</div>
+        <div class="v">{{ vm.entry.status }}</div>
+      </div>
+    </ng-container>
+}
+  </div>
+</div>

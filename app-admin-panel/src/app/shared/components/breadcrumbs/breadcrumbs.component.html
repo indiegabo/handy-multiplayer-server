@@ -1,0 +1,24 @@
+<div class="breadcrumbs bg-10 rounded-borders layout-row align-start-center">
+  @for (
+    breadcrumb of breadcrumbs;
+    track trackByIndex($index, breadcrumb);
+    let i = $index
+  ) {
+    <div
+      [@fadeIn]="{
+        value: 'in',
+        params: { duration: '100ms', inDelay: '200ms', outDelay: '100ms' },
+      }"
+      class="breadcrumb"
+      [class.link]="breadcrumb.link"
+      [class.last]="breadcrumbs.length === i + 1"
+    >
+      @if (breadcrumb.link) {
+        <a [routerLink]="breadcrumb.link">{{ breadcrumb.text }}</a>
+      }
+      @if (!breadcrumb.link) {
+        <a>{{ breadcrumb.text }}</a>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "ES2021",
+        "declaration": false,
+        "sourceMap": false,
+        "rootDir": "./app-shared-types",
+        "outDir": "./node_modules/@shared-types",
+        "strict": false,
+        "esModuleInterop": true,
+        "skipLibCheck": true
+    },
+    "include": [
+        "app-shared-types/**/*.ts"
+    ]
+}

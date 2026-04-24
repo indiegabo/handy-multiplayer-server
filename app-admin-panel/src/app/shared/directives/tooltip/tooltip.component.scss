@@ -1,0 +1,8 @@
+.tooltip {
+  padding: 1em;
+  color: var(--light-primary-text);
+  max-width: 300px;
+  border-left: solid 5px var(--primary-color);
+  text-align: justify;
+  transition: all 300ms;
+}

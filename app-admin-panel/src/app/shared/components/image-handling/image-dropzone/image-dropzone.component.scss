@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0; /* allow flex children to shrink without causing overflow */
+}
+
+.image-drop-file-zone-content {
+  color: var(--light-primary-text);
+  padding: 1rem;
+  width: 100%;
+  transition: all 250ms ease-in-out;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.image-drop-file-zone-content.image-over,
+.image-drop-file-zone-content:hover {
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
+}

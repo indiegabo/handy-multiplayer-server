@@ -1,0 +1,35 @@
+<section class="header"></section>
+
+<section
+  class="content container scrollable layout-row align-start-center gap-1"
+>
+  <div
+    class="previews-container layout-row layout-column-md align-center-center"
+  >
+    @if (croppedImage) {
+      <div class="wide-preview layout-row align-center-center">
+        <img [src]="croppedImage" />
+      </div>
+    }
+  </div>
+
+  <div class="image-cropper-container layout-row align-center-center">
+    <image-cropper
+      [imageFile]="imageFile"
+      [maintainAspectRatio]="true"
+      [aspectRatio]="16 / 9"
+      (imageCropped)="imageCropped($event)"
+      (imageLoaded)="imageLoaded($event)"
+      (cropperReady)="cropperReady()"
+      (loadImageFailed)="loadImageFailed()"
+    ></image-cropper>
+  </div>
+</section>
+
+<section class="footer">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row class="align-end-center">
+      <handy-button color="primary" (actionSent)="crop()">Crop</handy-button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</section>

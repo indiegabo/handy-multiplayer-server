@@ -1,0 +1,94 @@
+.message {
+  font-size: 16px;
+  line-height: 20px;
+}
+
+/* Prevent the message box content from causing horizontal overflow */
+.texts {
+  flex: 1 1 auto;
+  min-width: 0; /* allow children to shrink and wrap inside flex container */
+}
+
+.icon-container {
+  flex: 0 0 auto;
+}
+
+.message {
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+}
+
+/* Ensure the message box root respects parent's width and padding */
+:host {
+  display: block;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* Ensure any utility full-width used here doesn't overflow due to padding */
+.full-width {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.icon {
+  font-size: 42px;
+  height: 42px;
+  width: 42px;
+}
+
+/* Compact variant for less prominent inline guidance */
+.compact {
+  padding: 0.4em;
+  background: transparent;
+  border: none;
+}
+
+.compact .message {
+  font-size: 13px;
+  line-height: 18px;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.compact .headline-3 {
+  font-size: 14px;
+  margin: 0 0 0.25em 0;
+}
+
+.compact .icon {
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
+}
+
+/* Align paragraph, list and strong styles with project typography */
+.compact .message p {
+  margin: 0 0 0.35em 0;
+  font-size: 13px;
+}
+
+.compact .message ul {
+  margin: 0.25em 0 0.5em 1em;
+  padding: 0;
+}
+
+.compact .message li {
+  margin: 0.15em 0;
+  font-size: 13px;
+}
+
+.compact .message strong {
+  font-weight: 600;
+}
+
+/* Use muted color similar to subtitle-2 for less prominence */
+.compact .message,
+.compact .message li {
+  color: rgba(0, 0, 0, 0.65);
+}
+
+/* Dark theme adjustments (inherit colors from global classes) */
+:host-context(body.dark-theme) .compact .message,
+:host-context(body.dark-theme) .compact .message li {
+  color: rgba(255, 255, 255, 0.85);
+}

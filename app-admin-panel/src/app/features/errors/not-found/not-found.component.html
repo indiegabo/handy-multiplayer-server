@@ -1,0 +1,17 @@
+<section class="not-found-container layout-column align-center-center">
+  <div class="error-image-container p-1-em">
+    <img src="./assets/images/black-hole.png" />
+  </div>
+  <div
+    class="error-container bg-5 mat-elevation-z2 border-radius-5 layout-row align-center-center gap-2"
+  >
+    <span class="error-text flex-70">
+      {{ "errors.not-found" | translate }}
+    </span>
+    <div class="get-back-bar flex-30">
+      <handy-button (click)="getBack()">
+        {{ "errors.get-back" | translate }}
+      </handy-button>
+    </div>
+  </div>
+</section>

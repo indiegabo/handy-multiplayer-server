@@ -1,0 +1,65 @@
+{
+  "title": "falatrancista",
+  "menus": {
+    "app": {
+      "home": "Home",
+      "contact": "Contact",
+      "projects": "Projects",
+      "videos": "Vídeos"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Enter private area",
+      "form": {
+        "labels": {
+          "email": "E-mail",
+          "password": "Password",
+          "login": "Enter"
+        },
+        "google-sign-in": "Login with Google"
+      }
+    }
+  },
+  "tables": {
+    "types": {
+      "text": "Text",
+      "image": "Image",
+      "video": "Video",
+      "audio": "Audio"
+    }
+  },
+  "general": {
+    "add": "Add",
+    "save": "Save",
+    "cancel": "Cancel",
+    "login": "Login",
+    "remove": "Remove",
+    "close": "Close",
+    "confirm": "Confirm",
+    "send": "Send",
+    "nothing-here": "Nothing here yet...",
+    "forms": {
+      "errors": {
+        "required": "Required",
+        "min-length": "Must be at least {{amount}} characters long",
+        "max-length": "Maximum of {{amount}} characters",
+        "between": "Must have between {{min}} and {{max}} characters",
+        "value-between": "Must be between {{min}} and {{max}}",
+        "password-missmatch": "Passwords do not match",
+        "pattern": "Not attending to required pattern",
+        "email": "Not a valid E-mail",
+        "no-spaces": "No spaces allowed here"
+      }
+    }
+  },
+  "handy-dropzone": {
+    "formats": {
+      "not-allowed": "File format not allowed"
+    }
+  },
+  "errors": {
+    "not-found": "Looks like you've got yourself into nothing",
+    "get-back": "Get back"
+  }
+}

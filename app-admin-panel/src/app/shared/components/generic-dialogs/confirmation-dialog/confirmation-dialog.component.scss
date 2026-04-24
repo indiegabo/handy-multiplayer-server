@@ -1,0 +1,40 @@
+:host {
+  height: 100%;
+}
+
+.message {
+  line-height: 16px;
+  font-size: 14px;
+  color: var(--light-primary-text);
+}
+
+.confirmation-dialog-container {
+  min-width: 400px;
+  max-width: 600px;
+}
+
+.icon {
+  font-size: 16px;
+  color: var(--warn-color);
+}
+
+.typed-confirmation-hint {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--light-primary-text);
+}
+
+.typed-confirmation-input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--light-primary-text);
+  padding: 0.55rem 0.65rem;
+  outline: none;
+}
+
+.typed-confirmation-input:focus {
+  border-color: var(--warn-color);
+}

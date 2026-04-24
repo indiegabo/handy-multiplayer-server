@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="500px" height="500px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve">
+<g id="XMLID_1_">
+	<g>
+		<path class="main" fill="#3C435D" d="M149.29,379.505h201.42c-0.81-40.83-25.92-75.71-61.46-90.75c11-10.41,17.86-25.14,17.86-41.48
+			c0-31.53-25.57-57.1-57.11-57.1s-57.11,25.57-57.11,57.1c0,16.33,6.86,31.06,17.85,41.47
+			C175.2,303.805,150.1,338.675,149.29,379.505z M33,433.325v-155.41h97.01c0-66.27,53.72-120,119.99-120s119.99,53.73,119.99,120
+			H467v155.41H33z"/>
+	</g>
+	<g>
+		<polygon class="polygon" fill="none" stroke-width="20" stroke-miterlimit="10" points="467,277.916 467,433.325 33,433.325
+			33,277.916 33,66.666 467,66.666 		"/>
+
+		<path class="stroke" fill="none" stroke-width="9" stroke-miterlimit="10" d="M287.08,287.855c0.73,0.29,1.45,0.59,2.17,0.9
+			c35.54,15.04,60.65,49.92,61.46,90.75c0.01,0.68,0.02,1.36,0.02,2.04"/>
+
+		<path class="stroke" fill="none" stroke-width="9" stroke-miterlimit="10" d="M149.27,381.545c0-0.68,0.01-1.36,0.02-2.04
+			c0.81-40.83,25.91-75.7,61.45-90.76c0.55-0.23,1.11-0.46,1.66-0.68"/>
+
+		<path class="stroke" fill="none" stroke-width="9" stroke-miterlimit="10" d="M210.74,288.746
+			c-10.99-10.41-17.85-25.14-17.85-41.47c0-31.53,25.57-57.1,57.11-57.1s57.11,25.57,57.11,57.1c0,16.34-6.86,31.07-17.86,41.48
+			c-10.23,9.69-24.05,15.63-39.25,15.63C234.79,304.385,220.97,298.445,210.74,288.746z"/>
+
+		<polyline class="stroke" fill="none" stroke-width="9" stroke-miterlimit="10" points="147.32,379.505 149.29,379.505
+			350.71,379.505 352.68,379.505 		"/>
+
+		<path class="stroke" fill="none"  stroke-width="9" stroke-miterlimit="10" d="M130.01,277.916c0-66.27,53.72-120,119.99-120
+			s119.99,53.73,119.99,120"/>
+
+		<polyline class="stroke" fill="none"  stroke-width="9" stroke-miterlimit="10" points="365.33,277.916 369.99,277.916
+			467,277.916 473.08,277.916 		"/>
+
+		<polyline class="stroke" fill="none" stroke-width="9" stroke-miterlimit="10" points="134.33,277.916 130.01,277.916
+			33,277.916 26.92,277.916 		"/>
+	</g>
+</g>
+</svg>

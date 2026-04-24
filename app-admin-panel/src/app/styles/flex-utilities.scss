@@ -1,0 +1,239 @@
+// Flex utilities - starter stylesheet
+// Purpose: small set of reusable utility classes to replace Angular
+// Flex-Layout directives (fxLayout, fxFlex, fxLayoutAlign, fxLayoutGap,
+// fxShow, fxHide).
+
+// Breakpoints (adjust if project defines different values)
+$breakpoint-sm: 600px;
+$breakpoint-md: 960px;
+$breakpoint-lg: 1280px;
+$breakpoint-xl: 1920px;
+
+// Spacing scale (rem)
+$gap-0-25: 0.25rem;
+$gap-0-5: 0.5rem;
+$gap-1: 1rem;
+$gap-1-5: 1.5rem;
+$gap-2: 2rem;
+
+// Base layout
+.layout-row {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Row with wrap */
+.layout-row-wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.layout-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-wrap {
+  flex-wrap: wrap;
+}
+
+// Flex helpers
+.flex {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+// Percentage fixed flex helpers (use sparingly)
+.flex-25 {
+  flex: 0 0 25%;
+}
+.flex-30 {
+  flex: 0 0 30%;
+}
+.flex-33 {
+  flex: 0 0 33.3333%;
+}
+.flex-50 {
+  flex: 0 0 50%;
+}
+.flex-66 {
+  flex: 0 0 66.6667%;
+}
+.flex-75 {
+  flex: 0 0 75%;
+}
+
+/* Additional percentage / fixed-size flex helpers observed in templates */
+.flex-70 {
+  flex: 0 0 70%;
+}
+
+.flex-100 {
+  flex: 0 0 100%;
+}
+
+/* Fixed pixel basis helper used for icon columns */
+.flex-40px {
+  flex: 0 0 40px;
+}
+
+/* Explicit grow/shrink helpers for patterns like "1 0" */
+.flex-1-0 {
+  flex: 1 0 auto;
+}
+
+// Alignment helpers (justify-content / align-items)
+.align-start-center {
+  justify-content: flex-start;
+  align-items: center;
+}
+.align-center-center {
+  justify-content: center;
+  align-items: center;
+}
+.align-space-between-center {
+  justify-content: space-between;
+  align-items: center;
+}
+.align-end-center {
+  justify-content: flex-end;
+  align-items: center;
+}
+.align-space-around-center {
+  justify-content: space-around;
+  align-items: center;
+}
+.align-flex-start-center {
+  justify-content: flex-start;
+  align-items: center;
+}
+
+// Gap helpers (uses gap where supported)
+.gap-0-25 {
+  gap: $gap-0-25;
+}
+.gap-0-5 {
+  gap: $gap-0-5;
+}
+.gap-1 {
+  gap: $gap-1;
+}
+.gap-1-5 {
+  gap: $gap-1-5;
+}
+.gap-2 {
+  gap: $gap-2;
+}
+
+// Row-specific gap helpers (for older browsers fallback)
+.row-gap-1 {
+  margin-left: -$gap-1;
+  margin-right: -$gap-1;
+}
+.row-gap-1 > * {
+  padding-left: $gap-1;
+  padding-right: $gap-1;
+}
+
+// Show / hide
+.show {
+  display: block !important;
+}
+.hide {
+  display: none !important;
+}
+
+// Responsive variants
+// Desktop-first helpers: apply rules from min-width breakpoints
+.layout-row-md {
+  @media (min-width: $breakpoint-md) {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.layout-column-md {
+  @media (min-width: $breakpoint-md) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.hide-sm {
+  @media (max-width: $breakpoint-sm) {
+    display: none !important;
+  }
+}
+
+.hide-md {
+  @media (max-width: $breakpoint-md) {
+    display: none !important;
+  }
+}
+
+.show-md {
+  @media (min-width: $breakpoint-md) {
+    display: block !important;
+  }
+}
+
+// Utility helpers for vertical centering and common combos
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.center-vertical {
+  display: flex;
+  align-items: center;
+}
+.center-horizontal {
+  display: flex;
+  justify-content: center;
+}
+
+// Small helpers
+.vstack {
+  display: flex;
+  flex-direction: column;
+}
+.hstack {
+  display: flex;
+  flex-direction: row;
+}
+
+// Full width helper (moved from globals/handy.scss to central utilities)
+.full-width {
+  width: 100% !important;
+}
+
+// Provide an explicit namespace to avoid clashes: all classes start
+// with "layout-", "align-", "gap-", "flex-", "hide"/"show".
+
+// End of flex-utilities.scss
+
+/* Additional helpers added for versions migration POC */
+.gap-0-75 {
+  gap: 0.75rem;
+}
+
+.align-start-stretch {
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+/* small em-based gap used in some components */
+
+/* Pixel-based small gap used in a few templates */
+.gap-5px {
+  gap: 5px;
+}
+.gap-0-15 {
+  gap: 0.15em;
+}
+
+/* 0.35em used in tester-info spacing */
+.gap-0-35 {
+  gap: 0.35em;
+}

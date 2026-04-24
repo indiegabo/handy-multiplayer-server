@@ -1,0 +1,82 @@
+[
+    {
+        "identifier": "arena-join",
+        "triggers": [],
+        "commands": [
+            {
+                "name": "join_arena",
+                "aliases": [
+                    "join"
+                ],
+                "description": "User joins the arena queue",
+                "args": [],
+                "global_cooldown": 0,
+                "user_cooldown": 10,
+                "admin_only": false,
+                "is_enabled": true
+            }
+        ]
+    },
+    {
+        "identifier": "arena-challenge",
+        "triggers": [
+            {
+                "platform": "twitch",
+                "trigger_type": "twitch-cheer",
+                "conditions": {
+                    "min_bits": 200
+                },
+                "is_enabled": true
+            }
+        ],
+        "commands": [
+            {
+                "name": "challenge",
+                "aliases": [
+                    "duel"
+                ],
+                "description": "Challenge the current top contender (paid via bits)",
+                "args": [
+                    {
+                        "key": "target",
+                        "type": 2,
+                        "required": false
+                    }
+                ],
+                "global_cooldown": 0,
+                "user_cooldown": 0,
+                "admin_only": false,
+                "is_enabled": true
+            }
+        ]
+    },
+    {
+        "identifier": "arena-attack",
+        "triggers": [
+            {
+                "platform": "twitch",
+                "trigger_type": "twitch-poll-begin",
+                "conditions": {},
+                "is_enabled": true
+            }
+        ],
+        "commands": [
+            {
+                "name": "attack",
+                "aliases": [],
+                "description": "Enable crowd voting attacks during poll",
+                "args": [
+                    {
+                        "key": "skill",
+                        "type": 2,
+                        "required": false
+                    }
+                ],
+                "global_cooldown": 0,
+                "user_cooldown": 0,
+                "admin_only": false,
+                "is_enabled": true
+            }
+        ]
+    }
+]

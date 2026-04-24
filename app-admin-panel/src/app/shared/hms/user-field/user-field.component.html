@@ -1,0 +1,154 @@
+<div class="user-field-container full-width">
+  <!-- Selected user view -->
+  @if (selectedUser; as u) {
+    <ng-container>
+      <div
+        class="selected-user handy-border border-radius-5 layout-row align-start-center gap-0-5"
+      >
+        <div class="avatar-wrapper layout-column align-center-center">
+          @if (u.profile_picture; as pic) {
+            <img class="avatar" [src]="pic" loading="lazy" alt="User avatar" />
+          } @else {
+            <ng-container *ngTemplateOutlet="defaultAvatar"></ng-container>
+          }
+          <ng-template #defaultAvatar>
+            <img
+              class="avatar placeholder"
+              src="./assets/images/avatar-placeholder.jpg"
+              aria-hidden="true"
+            />
+          </ng-template>
+        </div>
+
+        <div class="user-info flex layout-column">
+          <h2 class="headline-3">
+            {{ "@" + u.username }}
+          </h2>
+          @if (u.display_name) {
+            <h2 class="subtitle-1">
+              {{ u.display_name }}
+            </h2>
+          }
+        </div>
+
+        <button
+          type="button"
+          mat-icon-button
+          class="handy-icon-button"
+          aria-label="Clear selection"
+          (click)="clearSelection($event)"
+        >
+          <fa-icon class="handy-icon" [icon]="['fas', 'xmark']"></fa-icon>
+        </button>
+      </div>
+    </ng-container>
+  } @else {
+    <ng-container *ngTemplateOutlet="searchMode"></ng-container>
+  }
+
+  <!-- Search mode -->
+  <ng-template #searchMode>
+    <form
+      class="search-wrapper full-width"
+      [formGroup]="form"
+      (click)="$event.stopPropagation()"
+    >
+      <handy-input-wrapper class="full-width">
+        <input
+          handyInput
+          class="full-width search-input"
+          formControlName="term"
+          [placeholder]="placeholder"
+          (click)="focusSearch($event)"
+        />
+      </handy-input-wrapper>
+
+      <!-- Floating clear button inside the input -->
+      @if (term.value.length || 0 > 0) {
+        <button
+          type="button"
+          mat-icon-button
+          class="handy-icon-button clear-btn"
+          aria-label="Clear text"
+          (click)="form.reset({ term: '' }); opened = false"
+        >
+          <fa-icon class="handy-icon" [icon]="['fas', 'xmark']"></fa-icon>
+        </button>
+      }
+
+      <!-- Floating dropdown with results -->
+      @if (opened) {
+        <div
+          class="floating-results mat-elevation-z8 bg-5"
+          (click)="$event.stopPropagation()"
+        >
+          @if (!loading) {
+            <ng-container>
+              @if (users.length > 0) {
+                <div class="users-list scrollable layout-column gap-0-5">
+                  @for (user of users; track trackByIndex($index, user)) {
+                    <div
+                      class="user-row handy-border border-radius-5 layout-row align-start-center"
+                      tabindex="0"
+                      role="button"
+                      (click)="selectUser(user, $event)"
+                      (keydown)="onItemKeydown(user, $event)"
+                    >
+                      <div
+                        class="avatar-wrapper layout-column align-center-center"
+                      >
+                        @if (user.profile_picture; as pic) {
+                          <img
+                            class="avatar"
+                            [src]="pic"
+                            loading="lazy"
+                            alt="User avatar"
+                          />
+                        } @else {
+                          <ng-container
+                            *ngTemplateOutlet="defaultPic"
+                          ></ng-container>
+                        }
+                        <ng-template #defaultPic>
+                          <img
+                            class="avatar placeholder"
+                            src="./assets/images/avatar-placeholder.jpg"
+                            aria-hidden="true"
+                          />
+                        </ng-template>
+                      </div>
+                      <div
+                        class="user-row-info p-05-em flex layout-column gap-0-15"
+                      >
+                        <div class="username">
+                          {{ "@" + user.username }}
+                        </div>
+                        @if (user.display_name) {
+                          <div class="display-name">
+                            {{ user.display_name }}
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  }
+                </div>
+              } @else {
+                <div class="empty-state layout-column align-center-center">
+                  <p class="subtitle-1">No users match: "{{ term.value }}"</p>
+                </div>
+              }
+            </ng-container>
+          } @else {
+            <ng-container *ngTemplateOutlet="loadingView"></ng-container>
+          }
+
+          <ng-template #loadingView>
+            <div class="loading-wrapper layout-row align-center-center">
+              <app-loading></app-loading>
+            </div>
+          </ng-template>
+        </div>
+      }
+    </form>
+  </ng-template>
+</div>

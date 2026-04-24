@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@src/*": ["./src/*"],
+      "@hms-module/*": ["./src/modules/hms/*"],
+      "@sg-module/*": ["./src/modules/sg/*"],
+      "@hms/shared-types": ["../app-shared-types/dist"],
+      "@hms/shared-types/*": ["../app-shared-types/dist/*"]
+    },
+    "outDir": "./dist",
+
+    "target": "ES2021",
+    "module": "Node16",
+    "lib": ["ES2021"],
+
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node16",
+
+    "incremental": false,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+
+    "types": ["node", "multer", "jest", "express", "qrcode"],
+    "sourceMap": true
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

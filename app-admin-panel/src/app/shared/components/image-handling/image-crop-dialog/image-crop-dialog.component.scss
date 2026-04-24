@@ -1,0 +1,49 @@
+.dialog-title {
+  margin: 0 0 0.5rem 0;
+}
+
+.dialog-content {
+  width: 100%;
+}
+
+.dialog-actions {
+  margin-top: 0.5rem;
+}
+
+/* Limit the visible area of the cropper so very tall images don't expand the dialog */
+.cropper-wrap {
+  width: 100%;
+  max-height: calc(80vh - 120px);
+  box-sizing: border-box;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* align to top so scroll can reach image top */
+  padding-top: 8px;
+}
+
+.cropper-wrap image-cropper,
+.cropper-wrap ngx-image-cropper {
+  max-width: 100%;
+  max-height: none;
+  box-sizing: border-box;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Use project dialog background so cropper area matches UI */
+.cropper-wrap {
+  background-color: var(--dark-bg-lighter-5);
+  padding: 12px 8px;
+  border-radius: 4px;
+}
+
+/* Remove ngx-image-cropper's large outline used as overlay */
+.cropper-wrap ::ng-deep .ngx-ic-cropper {
+  outline: none !important;
+}
+
+/* Fallback: target any element with class name containing ngx-ic-cropper */
+.cropper-wrap ::ng-deep [class*="ngx-ic-cropper"] {
+  outline: none !important;
+}

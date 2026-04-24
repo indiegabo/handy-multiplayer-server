@@ -1,0 +1,55 @@
+<div
+  [@grow]="expansionState"
+  #sidebar
+  class="sidebar-wrapper bg-5 mat-elevation-z8 layout-column"
+>
+  <div
+    class="collapse-button-container p-05-em full-width"
+    class="layout-row full-width"
+    [ngClass]="
+      expansionState === 'expanded' ? 'align-end-center' : 'align-center-center'
+    "
+  >
+    <button
+      mat-icon-button
+      class="handy-icon-button"
+      (click)="toggleExpansion()"
+    >
+      <fa-icon class="handy-icon" [icon]="['fas', 'bars']"></fa-icon>
+    </button>
+  </div>
+  <hr class="separator" />
+  <div
+    class="navigation-container p-05-em layout-column"
+    [ngClass]="
+      expansionState === 'expanded'
+        ? 'align-start-start'
+        : 'align-center-center'
+    "
+  >
+    @if (expansionState === 'expanded') {
+<ng-container>
+      @for (item of navItems; track trackByIndex($index, item)) {
+<app-navigation-item
+        class="full-width"
+        [item]="item"
+        [depth]="0"
+      >
+      </app-navigation-item>
+}
+    </ng-container>
+}
+
+    @if (expansionState === 'collapsed') {
+<ng-container>
+      @for (item of navItems; track trackByIndex($index, item)) {
+<app-navigation-item-short
+        [item]="item"
+        [depth]="0"
+      >
+      </app-navigation-item-short>
+}
+    </ng-container>
+}
+  </div>
+</div>

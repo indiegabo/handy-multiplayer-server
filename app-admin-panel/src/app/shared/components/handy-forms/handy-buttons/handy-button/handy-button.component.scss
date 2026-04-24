@@ -1,0 +1,80 @@
+button {
+  width: 100%;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  border: 2px solid var(--primary-color);
+  border-top-color: #fff;
+  animation: spinner 0.8s linear infinite;
+}
+
+.small.mat-button {
+  min-height: 24px;
+  font-size: 12px;
+  line-height: 24px;
+  padding: 0 5px;
+}
+
+.small.mat-button.spinner:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  margin-top: -5px;
+  margin-left: -10px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  border-top-color: #000000;
+  animation: spinner 0.8s linear infinite;
+}
+
+.small.mat-button:hover {
+  background-color: rgb(0, 0, 0, 0.2);
+}
+
+.label-wrapper {
+  font-size: 12px;
+}
+
+.g-button.no-color {
+  color: var(--light-primary-text);
+  border-color: var(--thin-border-color);
+}
+
+.g-button.primary-color {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.g-button.primary-color[disabled],
+.g-button.accent-color[disabled] {
+  border-color: var(--thin-border-color);
+}
+
+.g-button.accent-color {
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+}

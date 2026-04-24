@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create your admin account</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="
+  margin:0; padding:0; background-color:#101121; color:#f5f5f5;
+  font-family:Helvetica, Arial, sans-serif;
+">
+  <table role="presentation" width="100%" border="0" cellspacing="0"
+         cellpadding="0" style="background-color:#101121;">
+    <tr>
+      <td align="center" style="padding:24px 12px;">
+        <table role="presentation" width="560" border="0" cellspacing="0"
+               cellpadding="0" style="
+                 width:560px; max-width:560px; background:#181a32;
+                 border-radius:10px; overflow:hidden;
+                 box-shadow:0 0 8px rgba(0,0,0,0.35);
+                 border:1px solid #2a2b46;
+               ">
+          <!-- Header ------------------------------------------------------- -->
+          <tr>
+            <td style="
+              background-color:#af82f7; color:#ffffff; text-align:center;
+              padding:16px 16px;
+            ">
+              <div style="
+                font-size:18px; font-weight:600; letter-spacing:0.3px;
+                line-height:24px;
+              ">
+                {{appName}}
+              </div>
+            </td>
+          </tr>
+
+          <!-- Spacer ------------------------------------------------------- -->
+          <tr>
+            <td style="padding:0; background-color:#212343;">
+              <table role="presentation" width="100%" border="0"
+                     cellspacing="0" cellpadding="0">
+                <tr><td style="height:12px; font-size:0;">&nbsp;</td></tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Body copy ---------------------------------------------------- -->
+          <tr>
+            <td style="padding:24px; background:#181a32; color:#f5f5f5;">
+              <div style="
+                font-size:16px; font-weight:600; margin:0 0 8px 0;
+              ">
+                Create your admin account
+              </div>
+
+              <p style="margin:0 0 12px 0; font-size:14px; line-height:20px;
+                        color:#f5f5f5;">
+                Hello {{inviteeEmail}},
+              </p>
+
+              <p style="margin:0 0 12px 0; font-size:14px; line-height:20px;
+                        color:#e0e1ee;">
+                You were invited by <strong>{{inviterName}}</strong> to join
+                <strong>{{appName}}</strong> as an administrator.
+              </p>
+
+              <p style="margin:0 0 16px 0; font-size:14px; line-height:20px;
+                        color:#e0e1ee;">
+                Click the button below to create your account. This invite
+                expires on <strong>{{expiresAtDate}}</strong> at
+                <strong>{{expiresAtTime}}</strong>.
+              </p>
+
+              <!-- Isolated CTA container (dark section) -------------------- -->
+              <table role="presentation" width="100%" border="0"
+                     cellspacing="0" cellpadding="0" style="
+                       background-color:#212343; /* dark-lighter-10 */
+                       border-radius:8px; margin:0 0 16px 0;
+                       border:1px solid #2a2b46;
+                     ">
+                <tr>
+                  <td align="left" style="padding:16px;">
+                    <!-- Centered button ------------------------------------ -->
+                    <table role="presentation" border="0" cellspacing="0"
+                           cellpadding="0" align="center" style="
+                             margin:0 auto 12px auto; text-align:center;
+                           ">
+                      <tr>
+                        <td align="center" style="
+                          border-radius:6px; background-color:#45ab3c;
+                        ">
+                          <a href="{{inviteUrl}}" target="_blank" style="
+                            display:inline-block; padding:12px 18px;
+                            font-size:14px; font-weight:600; color:#ffffff;
+                            text-decoration:none; border-radius:6px;
+                            line-height:14px;
+                          ">
+                            Create admin account
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- Copyable link note (inside the dark container) ----- -->
+                    <div style="
+                      font-size:12px; line-height:18px; color:#cfd1e6;
+                      margin:0;
+                    ">
+                      If the button does not work, copy and paste this link
+                      into your browser:
+                    </div>
+                    <div style="
+                      font-size:12px; line-height:18px; margin-top:4px;
+                      word-break:break-all;
+                    ">
+                      <a href="{{inviteUrl}}" target="_blank" style="
+                        color:#e7dafd; text-decoration:underline;
+                      ">
+                        {{inviteUrl}}
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Optional extra tip -------------------------------------- -->
+              <p style="
+                margin:0; font-size:12px; line-height:18px; color:#aeb0c9;
+              ">
+                If you did not expect this invitation, you can ignore
+                this email.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer ------------------------------------------------------- -->
+          <tr>
+            <td style="
+              background:#181a32; color:#cfd1e6; text-align:center;
+              padding:16px 16px 20px 16px; border-top:1px solid #2a2b46;
+              font-size:12px; line-height:18px;
+            ">
+              <div style="margin-bottom:4px;">
+                &copy; {{appName}}. All rights reserved.
+              </div>
+              {{#if environment}}
+              <div>
+                Environment:
+                <span style="color:#af82f7;">{{environment}}</span>
+              </div>
+              {{/if}}
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,26 @@
+@if (acceptedFormatsString) {
+<ngx-file-drop
+  dropZoneLabel="Drop Image Here"
+  dropZoneClassName="drop-file-zone"
+  [accept]="acceptedFormatsString"
+  [multiple]="false"
+  (onFileDrop)="droppedImage($event)"
+  (onFileOver)="imageOverZone($event)"
+  (onFileLeave)="imageLeftZone($event)"
+>
+  <ng-template
+    ngx-file-drop-content-tmp
+    let-openFileSelector="openFileSelector"
+  >
+    <div
+      class="image-drop-file-zone-content lung-border border-radius-5 image-over layout-column align-center-center"
+      [class.image-over]="isOver"
+      style="cursor: pointer"
+      (click)="openFileSelector()"
+    >
+      <mat-icon>image</mat-icon>
+      <p>Drop an image here or click and browse for one</p>
+    </div>
+  </ng-template>
+</ngx-file-drop>
+}

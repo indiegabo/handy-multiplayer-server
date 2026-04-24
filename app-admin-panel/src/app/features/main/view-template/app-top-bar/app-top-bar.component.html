@@ -1,0 +1,41 @@
+<div
+  id="top-bar-container"
+  class="layout-row align-space-between-center p-05-em"
+>
+  <div id="main-top-bar" #mainTopBar class="layout-row align-start-center">
+    <div class="gap-1 align-start-center">
+      <a [routerLink]="['/app']" class="logo layout-row align-center-center">
+        Admin Panel
+      </a>
+
+      @if (title) {
+        <div class="title layout-row gap-5px">
+          <span>{{ title }}</span>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="right-controls layout-row align-start-center">
+    @if (user) {
+      <app-round-avatar
+        [userName]="user.name"
+        alignment="center"
+        [tooltip]="user.name"
+        [matMenuTriggerFor]="userMenu"
+        [size]="{ width: 30, height: 30 }"
+      >
+      </app-round-avatar>
+    }
+  </div>
+</div>
+
+<mat-menu #userMenu="matMenu" class="user-menu bg-5" xPosition="after">
+  <handy-button
+    [loading]="loggingOut"
+    [bordered]="false"
+    (actionSent)="logout()"
+  >
+    Logout
+  </handy-button>
+</mat-menu>

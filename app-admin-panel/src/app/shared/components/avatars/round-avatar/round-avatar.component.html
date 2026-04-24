@@ -1,0 +1,35 @@
+<div
+  class="avatar layout-row"
+  [ngStyle]="{
+    cursor: clickable ? 'pointer' : 'default',
+    'justify-content': (alignmentString || '').split(' ')[0],
+    'align-items': (alignmentString || '').split(' ')[1],
+  }"
+>
+  @if (src) {
+<img
+    [ngStyle]="inlineStyle"
+    [matTooltip]="tooltip"
+    matTooltipPosition="above"
+    [src]="src"
+    (error)="handleImageError($event)"
+  />
+}
+  @if (!src) {
+<div
+    class="avatar-fallback"
+    [style]="{
+      width: size.width + 'px',
+      height: size.height + 'px',
+      border: `${borderWidth}px ${borderStyle} ${borderColor}`,
+      'background-color': fallbackStyle['background-color'],
+      color: fallbackStyle['color'],
+      'font-size.px': size.width / 2,
+    }"
+    [matTooltip]="tooltip"
+    matTooltipPosition="above"
+  >
+    {{ fallbackText }}
+  </div>
+}
+</div>

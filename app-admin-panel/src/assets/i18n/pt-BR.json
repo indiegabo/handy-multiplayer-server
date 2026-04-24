@@ -1,0 +1,72 @@
+{
+  "title": "Arventurer",
+  "menus": {
+    "app": {
+      "home": "Início",
+      "contact": "Contato",
+      "projects": "Projetos",
+      "videos": "Vídeos"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Acessar área privada",
+      "form": {
+        "labels": {
+          "email": "E-mail",
+          "password": "Senha",
+          "login": "Entrar"
+        }
+      },
+      "google-sign-in": "Entrar com o Google"
+    }
+  },
+  "tables": {
+    "types": {
+      "text": "Texto",
+      "image": "Imagem",
+      "video": "Vídeo",
+      "audio": "Áudio"
+    }
+  },
+  "general": {
+    "add": "Criar",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "login": "Entrar",
+    "remove": "Remover",
+    "close": "Fechar",
+    "confirm": "Confirmar",
+    "send": "Enviar",
+    "nothing-here": "Nada a ser exibido aqui por enquanto...",
+    "forms": {
+      "hints": {
+        "value-between": "Deve ser um valor entre {{min}} e {{max}}"
+      },
+      "errors": {
+        "required": "Necessário",
+        "min-length": "Deve ter ao menos {{amount}} caracteres",
+        "max-length": "Deve ter no máximo {{amount}} caracteres",
+        "between": "Deve ter entre {{min}} e {{max}} caracteres",
+        "value-between": "Deve ser um valor entre {{min}} e {{max}}",
+        "password-missmatch": "Senhas não são iguais",
+        "pattern": "Não está de acordo com as regras",
+        "email": "E-mail inválido",
+        "no-spaces": "Sem espaços aqui"
+      },
+      "messages": {
+        "saved": "Salvo com sucesso",
+        "removed": "Removido com sucesso"
+      }
+    }
+  },
+  "handy-dropzone": {
+    "formats": {
+      "not-allowed": "Formato de arquivo não permitido"
+    }
+  },
+  "errors": {
+    "not-found": "Você acabou de achar um grande nada!",
+    "get-back": "Voltar"
+  }
+}

@@ -1,0 +1,37 @@
+.nav-short-item {
+  transition: background-color 300ms;
+  width: 100%;
+  width: 40px;
+  height: 40px;
+  color: var(--dark-primary-text);
+  cursor: pointer;
+}
+
+.nav-short-item .icon {
+  width: 24px;
+  height: 24px;
+}
+
+.nav-short-item {
+  color: var(--light-primary-text);
+}
+
+.nav-short-item.active {
+  background-color: var(--dark-bg-lighter-20) !important;
+}
+
+.nav-short-item:hover {
+  background-color: var(--dark-bg-lighter-10);
+}
+
+.nav-children {
+  overflow: hidden;
+}
+
+.nav-expand-icon {
+  cursor: pointer;
+}
+
+.children-nav-container {
+  width: 200px;
+}

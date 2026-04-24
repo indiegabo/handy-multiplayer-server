@@ -1,0 +1,13 @@
+<div class="text-loader layout-row align-center-center gap-0-5">
+  <ng-content></ng-content>
+  <div
+    class="lung-loader-container layout-row align-center-center"
+    [class.small]="size === 'small'"
+  >
+    <div
+      class="lung-loader"
+      [class.small]="size === 'small'"
+      [class.tiny]="size === 'tiny'"
+    ></div>
+  </div>
+</div>

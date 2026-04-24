@@ -1,0 +1,65 @@
+[
+    {
+        "identifier": "arena-join",
+        "name": "join_arena",
+        "aliases": [
+            "join"
+        ],
+        "description": "Join the arena queue",
+        "args": [],
+        "global_cooldown": 0,
+        "user_cooldown": 10,
+        "admin_only": false,
+        "is_enabled": true
+    },
+    {
+        "identifier": "arena-challenge",
+        "name": "challenge",
+        "aliases": [
+            "duel"
+        ],
+        "description": "Challenge another player to a duel",
+        "args": [
+            {
+                "key": "target",
+                "type": 2,
+                "required": true
+            }
+        ],
+        "global_cooldown": 20,
+        "user_cooldown": 60,
+        "admin_only": false,
+        "is_enabled": true
+    },
+    {
+        "identifier": "arena-attack",
+        "name": "attack",
+        "aliases": [],
+        "description": "Execute an arena attack (used by queued matches)",
+        "args": [
+            {
+                "key": "skill",
+                "type": 2,
+                "required": false,
+                "defaultValue": "slash"
+            }
+        ],
+        "global_cooldown": 5,
+        "user_cooldown": 1,
+        "admin_only": false,
+        "is_enabled": true
+    },
+    {
+        "identifier": "arena-surrender",
+        "name": "surrender",
+        "aliases": [
+            "forfeit"
+        ],
+        "description": "Surrender current match",
+        "args": [],
+        "global_cooldown": 0,
+        "user_cooldown": 0,
+        "admin_only": false,
+        "is_enabled": true
+    }
+]
