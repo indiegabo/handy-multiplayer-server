@@ -75,6 +75,7 @@ import { AccessPolicy, AuthSubject } from '@hms-module/core/decorators/auth-subj
 import { registerGlobalBetterLogger } from '../../better-logger/global-better-logger';
 import { IsUsernameAvailableQuery } from '../payloads/is-username-avalilable.query';
 import { RequestLoginCodePayload } from '../payloads/request-login-code.payload';
+import { TwitchOauthConfiguredGuard } from '../guards/twitch-oauth-configured.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -338,14 +339,14 @@ export class AuthController {
 
     @Get('twitch')
     @HttpCode(HttpStatus.OK)
-    @UseGuards(PassportAuthGuard('twitch'))
+    @UseGuards(TwitchOauthConfiguredGuard, PassportAuthGuard('twitch'))
     async twitchAuth() {
         // Passport handles the OAuth redirect.
     }
 
     @Get('twitch/callback')
     @HttpCode(HttpStatus.OK)
-    @UseGuards(PassportAuthGuard('twitch'))
+    @UseGuards(TwitchOauthConfiguredGuard, PassportAuthGuard('twitch'))
     async twitchAuthRedirect(@Request() req, @Response() res) {
         const user = req.user as User;
 

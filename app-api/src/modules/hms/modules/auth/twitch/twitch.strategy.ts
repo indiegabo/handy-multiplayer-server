@@ -17,6 +17,7 @@ import { AUTH_CONFIG } from "@src/config/hms/auth.config";
 @Injectable()
 export class TwitchStrategy extends PassportStrategy(Strategy, "twitch") {
     private readonly twitchAppId: string;
+    private readonly twitchEnabled: boolean;
 
     // Cached configuration values.
     private readonly twitchClientId: string;
@@ -36,6 +37,7 @@ export class TwitchStrategy extends PassportStrategy(Strategy, "twitch") {
             (config.get<string>("TWITCH_APP_SECRET") ?? "").trim();
         const callbackUrl =
             (config.get<string>("TWITCH_CALLBACK_URL") ?? "").trim();
+        const twitchEnabled = !!clientId && !!clientSecret && !!callbackUrl;
 
         // Read scopes from AUTH_CONFIG (single source of truth).
         const scopes = AUTH_CONFIG.oauth?.twitch?.scopes ?? [];
@@ -43,9 +45,12 @@ export class TwitchStrategy extends PassportStrategy(Strategy, "twitch") {
         super({
             authorizationURL: "https://id.twitch.tv/oauth2/authorize",
             tokenURL: "https://id.twitch.tv/oauth2/token",
-            clientID: clientId,
-            clientSecret: clientSecret,
-            callbackURL: callbackUrl,
+            // Passport OAuth2 requires non-empty values at bootstrap.
+            // When Twitch is not configured, we keep the app up and block
+            // Twitch routes with a dedicated guard.
+            clientID: clientId || "__twitch_disabled__",
+            clientSecret: clientSecret || "__twitch_disabled__",
+            callbackURL: callbackUrl || "http://localhost/auth/twitch/callback",
             scope: scopes,
         } as StrategyOptions);
 
@@ -53,9 +58,17 @@ export class TwitchStrategy extends PassportStrategy(Strategy, "twitch") {
         this.twitchClientSecret = clientSecret;
         this.twitchCallbackUrl = callbackUrl;
         this.twitchScopes = scopes;
+        this.twitchEnabled = twitchEnabled;
 
         this.twitchAppId = clientId;
         this.logger.setContext(TwitchStrategy.name);
+
+        if (!this.twitchEnabled) {
+            this.logger.warn(
+                "Twitch OAuth disabled: set TWITCH_APP_ID, TWITCH_APP_SECRET and TWITCH_CALLBACK_URL to enable it.",
+            );
+            return;
+        }
 
         // OAuth2 tuning for Twitch API.
         this._oauth2.setAccessTokenName("access_token");
@@ -74,6 +87,10 @@ export class TwitchStrategy extends PassportStrategy(Strategy, "twitch") {
         refreshToken: string,
     ): Promise<User> {
         try {
+            if (!this.twitchEnabled) {
+                throw new Error("Twitch OAuth is not configured.");
+            }
+
             // Configuration sanity check (fail fast).
             if (!this.twitchClientId
                 || !this.twitchClientSecret

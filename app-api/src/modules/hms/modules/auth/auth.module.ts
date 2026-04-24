@@ -45,6 +45,7 @@ import { AuthSupportPort } from './services/ports/auth-support.port';
 import { AuthSupportAdapter } from './services/adapters/auth-support.adapter';
 import { TwoFAHandlersBootstrap } from './services/boot/twofa-handlers.bootstrap';
 import { AppSetupModule } from '../app-setup/app-setup.module';
+import { TwitchOauthConfiguredGuard } from './guards/twitch-oauth-configured.guard';
 
 @Module({
   imports: [
@@ -105,6 +106,7 @@ import { AppSetupModule } from '../app-setup/app-setup.module';
     ClaimUsernameUseCase,
     RequestAdminLoginEmailUseCase,
     RequestEndUserLoginEmailUseCase,
+    TwitchOauthConfiguredGuard,
     TwitchStrategy,
     RefreshTokenRepository,
   ],
