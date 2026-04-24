@@ -1,6 +1,0 @@
-{
-  "singleQuote": true,
-  "parser": "flow",
-  "trailingComma": "all",
-  "encoding": "utf-8"
-}
