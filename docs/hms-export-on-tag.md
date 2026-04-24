@@ -37,6 +37,9 @@ Trigger condition:
    - `app-api/src/i18n/sg`
    - `app-api/src/database/migrations/sg`
    - `app-api/src/database/seeds/sg`
+   - `app-api/test/e2e/sg`
+   - `app-api/test/unit/modules/sg`
+   - `app-api/test/mocks/sg`
    - `SGModule` import/registration from `app-api/src/app.module.ts`
    - `app-admin-panel/src/app/features/main/sg`
    - `app-admin-panel/src/app/shared/sg`
@@ -46,7 +49,7 @@ Trigger condition:
      (`main.module.ts`, `dashboard.module.ts`, `shared.module.ts`, `config/navigation.ts`)
 4. Validate snapshot buildability:
    - Run root dependency install (`npm ci`).
-  - Run app-admin-panel dependency install (`npm --prefix app-admin-panel ci`).
+   - Run app-admin-panel dependency install (`npm --prefix app-admin-panel ci`).
    - Run admin panel build (`npm run build:admin`).
 5. Clone target repository:
    - `indiegabo/handy-multiplayer-server`

@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
+import { ConfigService } from '@nestjs/config';
 import { AuthController } from '../../../../src/modules/hms/modules/auth/controllers/auth.controller';
 import { AuthFacade } from '../../../../src/modules/hms/modules/auth/auth.facade';
 import { BetterLogger } from '../../../../src/modules/hms/modules/better-logger/better-logger.service';
@@ -20,6 +21,12 @@ describe('POST /auth/send-login-code (e2e-like)', () => {
                 { provide: BetterLogger, useValue: mockLogger },
                 { provide: UsersService, useValue: {} },
                 { provide: OneTimeTokensService, useValue: {} },
+                {
+                    provide: ConfigService,
+                    useValue: {
+                        get: jest.fn(),
+                    },
+                },
             ],
         }).compile();
 
