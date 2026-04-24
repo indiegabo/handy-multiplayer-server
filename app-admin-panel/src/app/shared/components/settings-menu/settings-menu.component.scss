@@ -1,0 +1,55 @@
+:host
+  ::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-bar {
+  background-color: #49c5b6;
+}
+
+:host
+  ::ng-deep
+  .mat-slide-toggle.mat-checked:not(.mat-disabled)
+  .mat-slide-toggle-thumb {
+  background-color: #49c5b6;
+}
+
+.settings-icon {
+  color: var(--light-primary-text);
+}
+.settings-menu {
+  padding: 0 !important;
+  min-height: 48px !important;
+  min-width: 210px !important;
+
+  .mat-menu-content {
+    padding: 0 !important;
+  }
+
+  .settings-menu-group {
+    padding: 5px !important;
+
+    .settings-menu-item-container {
+      margin-bottom: 10px;
+
+      .settings-menu-item {
+        width: 100%;
+        padding: 5px;
+        cursor: pointer;
+        mat-icon {
+          margin-right: 7px;
+        }
+      }
+    }
+
+    .settings-menu-item-container.active .settings-menu-item.highlightable {
+      background-color: var(--dark-bg-lighter-20) !important;
+    }
+
+    .settings-menu-item-container .settings-menu-item.highlightable:hover {
+      background-color: var(--dark-bg-lighter-10);
+    }
+
+    .last {
+      margin-bottom: 0 !important;
+    }
+  }
+}

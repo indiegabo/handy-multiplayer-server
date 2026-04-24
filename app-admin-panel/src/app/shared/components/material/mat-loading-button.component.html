@@ -1,0 +1,50 @@
+<!-- @if (type === BUTTON_DEFAULT) {
+<button
+  mat-button
+  [color]="color"
+  [class.spinner]="loading"
+  [class.small]="size === SIZE_SMALL"
+  [disabled]="loading || disabled"
+  (click)="action()"
+>
+  <ng-content></ng-content>
+</button>
+} -->
+
+<button
+  mat-raised-button
+  [color]="color"
+  [class.spinner]="loading"
+  [class.small]="size === SIZE_SMALL"
+  [disabled]="loading || disabled"
+  (click)="action()"
+>
+  <ng-content></ng-content>
+</button>
+
+<!-- @if (type === BUTTON_LUNG_BORDER) {
+<button
+  mat-button
+  class="lung-border"
+  [color]="color"
+  [class.spinner]="loading"
+  [class.small]="size === SIZE_SMALL"
+  [disabled]="loading || disabled"
+  (click)="action()"
+>
+  <ng-content></ng-content>
+</button>
+} -->
+
+<!-- @if (type === BUTTON_STROKED) {
+<button
+  mat-stroked-button
+  [color]="color"
+  [class.spinner]="loading"
+  [class.small]="size === SIZE_SMALL"
+  [disabled]="loading || disabled"
+  (click)="action()"
+>
+  <ng-content></ng-content>
+</button>
+} -->

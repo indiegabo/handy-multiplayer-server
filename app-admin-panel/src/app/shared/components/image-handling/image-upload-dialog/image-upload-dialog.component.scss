@@ -1,0 +1,12 @@
+.dialog-container {
+  min-width: 600px;
+  max-width: 600px;
+}
+
+.cropper-container {
+  max-height: 300px;
+
+  app-square-image-cropper {
+    max-height: 300px;
+  }
+}

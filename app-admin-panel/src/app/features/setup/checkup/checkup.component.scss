@@ -1,0 +1,40 @@
+:host {
+  height: 100%;
+}
+.wrapper {
+  height: 100%;
+  padding: 2rem;
+}
+
+.connections-card {
+  width: 600px;
+
+  .connection-status-panel {
+    max-width: 100%;
+    overflow: hidden;
+
+    .error-details {
+      max-width: 100%;
+      overflow-x: auto;
+
+      pre {
+        max-width: 100%;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+    }
+  }
+
+  .status-icon {
+    color: var(--accent-color);
+  }
+
+  .status-icon.error {
+    color: var(--warn-color);
+  }
+}
+
+.connection-header {
+  width: 100%;
+  max-width: 100%;
+}

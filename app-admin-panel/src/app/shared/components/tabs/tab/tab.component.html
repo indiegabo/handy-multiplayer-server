@@ -1,0 +1,21 @@
+<div
+  class="app-tab text-color layout-column align-end-center"
+  [class.active]="active"
+>
+  <ng-template cdkDragPlaceholder>
+    <div class="app-tab-drag-placeholder"></div>
+  </ng-template>
+
+  <button type="button" mat-button cdkDragHandle (click)="onClick()">
+    @if (icon) {
+      <fa-icon
+        class="app-tab-icon fa-icon"
+        [class.active]="active"
+        [icon]="[icon.style, icon.name]"
+      ></fa-icon>
+    }
+    <span class="app-tab-label">
+      {{ label }}
+    </span>
+  </button>
+</div>

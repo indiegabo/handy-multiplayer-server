@@ -1,0 +1,83 @@
+[
+    {
+        "identifier": "rpg-castspell",
+        "name": "castspell",
+        "aliases": [
+            "cast"
+        ],
+        "description": "Cast a spell (consumes mp)",
+        "args": [
+            {
+                "key": "spell",
+                "type": 2,
+                "required": true
+            },
+            {
+                "key": "target",
+                "type": 2,
+                "required": false
+            }
+        ],
+        "global_cooldown": 10,
+        "user_cooldown": 5,
+        "admin_only": false,
+        "is_enabled": true
+    },
+    {
+        "identifier": "rpg-useitem",
+        "name": "useitem",
+        "aliases": [
+            "item"
+        ],
+        "description": "Use an inventory item",
+        "args": [
+            {
+                "key": "item_id",
+                "type": 3,
+                "required": true
+            }
+        ],
+        "global_cooldown": 5,
+        "user_cooldown": 5,
+        "admin_only": false,
+        "is_enabled": true
+    },
+    {
+        "identifier": "rpg-start-quest",
+        "name": "start_quest",
+        "aliases": [
+            "quest"
+        ],
+        "description": "Start a crowd quest",
+        "args": [
+            {
+                "key": "quest_id",
+                "type": 3,
+                "required": true
+            }
+        ],
+        "global_cooldown": 0,
+        "user_cooldown": 0,
+        "admin_only": false,
+        "is_enabled": true
+    },
+    {
+        "identifier": "rpg-teleport",
+        "name": "teleport",
+        "aliases": [
+            "tp"
+        ],
+        "description": "Teleport the party to a location",
+        "args": [
+            {
+                "key": "location",
+                "type": 2,
+                "required": true
+            }
+        ],
+        "global_cooldown": 60,
+        "user_cooldown": 300,
+        "admin_only": true,
+        "is_enabled": true
+    }
+]

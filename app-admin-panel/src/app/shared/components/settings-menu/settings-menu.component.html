@@ -1,0 +1,28 @@
+<button
+  mat-icon-button
+  class="lung-icon-button"
+  [matMenuTriggerFor]="settingsMenu"
+>
+  <fa-icon class="settings-icon lung-icon" [icon]="['fas', 'cog']"></fa-icon>
+</button>
+
+<mat-menu #settingsMenu="matMenu" class="settings-menu bg-10">
+  <div class="settings-menu-group layout-column">
+    <div
+      class="settings-menu-item-container last layout-row align-start-center"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="settings-menu-item handy-item layout-row align-start-center">
+        <mat-icon>dark_mode</mat-icon>
+        <span>Dark Mode</span>
+      </div>
+      <mat-slide-toggle
+        color="primary"
+        [(ngModel)]="darkThemeOn"
+        (click)="$event.stopPropagation()"
+        (change)="toggleDarkMode()"
+      >
+      </mat-slide-toggle>
+    </div>
+  </div>
+</mat-menu>

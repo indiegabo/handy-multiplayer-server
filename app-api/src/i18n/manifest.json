@@ -1,0 +1,48 @@
+{
+    "version": "alpha.0.1",
+    "defaultLocale": "en",
+    "modules": {
+        "sg": {
+            "locales": {
+                "en": {
+                    "universes": {
+                        "launcher": {
+                            "namespaces": [
+                                "common",
+                                "components",
+                                "features",
+                                "navigation",
+                                "shared"
+                            ]
+                        },
+                        "institutional": {
+                            "namespaces": []
+                        },
+                        "sdk": {
+                            "namespaces": []
+                        }
+                    }
+                },
+                "pt-BR": {
+                    "universes": {
+                        "launcher": {
+                            "namespaces": [
+                                "common",
+                                "components",
+                                "features",
+                                "navigation",
+                                "shared"
+                            ]
+                        },
+                        "institutional": {
+                            "namespaces": []
+                        },
+                        "sdk": {
+                            "namespaces": []
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

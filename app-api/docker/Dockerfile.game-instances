@@ -1,0 +1,50 @@
+# Base image
+FROM ubuntu:22.04
+
+# Define work directory
+WORKDIR /usr/src/server
+
+# Copy server files
+COPY . .
+
+# Expose ports
+EXPOSE 4550/tcp
+EXPOSE 4550/udp
+
+# Install dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nano \
+    ca-certificates \
+    curl \
+    jq \
+    git \
+    iputils-ping \
+    libcurl4 \
+    libicu70 \
+    libunwind8 \
+    netcat \
+    libssl3
+
+# Create entrypoint script
+# This script will find the first .x86_64 file in the current directory,
+# make it executable, and then execute it with the given arguments.
+# If no such file is found, it will exit with an error.
+RUN echo '#!/bin/bash\n\
+# Find the first .x86_64 executable in the current directory
+executable=$(find . -maxdepth 1 -type f -name "*.x86_64" | head -n 1)\n\
+if [ -z "$executable" ]; then\n\
+    # If no such file is found, exit with an error
+    echo "Error: No .x86_64 executable found in $(pwd)" >&2\n\
+    exit 1\n\
+fi\n\
+# Make the executable file executable
+chmod +x "$executable"\n\
+# Execute the executable with the given arguments
+exec "$executable" "$@"' > /entrypoint.sh && \
+    # Make the entrypoint script executable
+    chmod +x /entrypoint.sh
+
+# Set the dynamic entrypoint
+# This means that the entrypoint script will be executed when the container
+# starts, and it will pass any given arguments to the script.
+ENTRYPOINT ["/entrypoint.sh"]

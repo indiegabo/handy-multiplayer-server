@@ -1,0 +1,64 @@
+<div class="dialog-container p-1-em layout-column">
+  <div class="header layout-row align-start-center gap-0-5">
+    <h2 class="headline-2">
+      @if (data.title) {
+<span>{{ data.title }}</span>
+}
+      @if (!data.title) {
+<span>Upload Image</span>
+}
+    </h2>
+    <span class="frs"></span>
+    <button mat-icon-button (click)="close()">
+      <fa-icon [icon]="['fas', 'times']"></fa-icon>
+    </button>
+  </div>
+
+  <hr class="separator" />
+
+  <div class="content layout-column gap-0-5">
+    @if (!file) {
+<app-image-dropzone
+      [acceptedFormats]="['jpeg', 'jpg', 'png']"
+      (dropDone)="onFileDrop($event)"
+    >
+    </app-image-dropzone>
+}
+
+    @if (file) {
+<div class="layout-column gap-1">
+      <div class="cropper-container layout-row align-space-around-center gap-1">
+        <app-round-avatar
+          style="height: 250px; width: 250px"
+          [src]="image64"
+          alignment="center"
+          [size]="{ width: 250, height: 250 }"
+          [borderWidth]="5"
+        >
+        </app-round-avatar>
+        <app-square-image-cropper
+          [file]="file"
+          (cropped)="onCroppedPerformed($event)"
+        >
+        </app-square-image-cropper>
+      </div>
+
+      <div class="layout-row align-start-center">
+        <handy-button (click)="clearImage()"> Pick another image </handy-button>
+
+        <span class="frs"></span>
+
+        <handy-button [disabled]="loading" [loading]="loading" (click)="save()">
+          Go!
+        </handy-button>
+      </div>
+    </div>
+}
+  </div>
+
+  <!-- <ng-template #loadingTemplate>
+    <div class="loader-wrapper full-width">
+      <app-text-loader> Loading keys... </app-text-loader>
+    </div>
+  </ng-template> -->
+</div>

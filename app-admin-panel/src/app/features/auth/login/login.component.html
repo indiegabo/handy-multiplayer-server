@@ -1,0 +1,168 @@
+<div class="page-container">
+  <div
+    class="login-container p-1-em mat-elevation-z4 border-radius-5 layout-column align-center-center"
+  >
+    <div class="login-content full-width flex layout-column gap-1">
+      <!-- Logo/Header -->
+      <div class="layout-column align-center-center">
+        <h2 class="headline-2">
+          {{
+            currentView === "credentials"
+              ? "Login"
+              : "Two-Factor Authentication"
+          }}
+        </h2>
+      </div>
+
+      <!-- Credentials Form -->
+      @if (currentView === 'credentials') {
+<form
+        [formGroup]="loginForm"
+        (ngSubmit)="onLoginFormSubmit()"
+        class="full-width"
+        class="full-width layout-column gap-1"
+      >
+        <!-- Email Field -->
+        <handy-input-wrapper class="full-width">
+          <input
+            handyInput
+            class="full-width"
+            formControlName="email"
+            placeholder="Your email"
+            type="email"
+            [class.invalid]="
+              loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+            "
+          />
+          <handy-input-messages>
+            @if (loginForm.get('email')?.hasError('required') &&
+                loginForm.get('email')?.touched) {
+<handy-input-message
+              class="error-message"
+            >
+              Email is required
+            </handy-input-message>
+}
+
+            @if (loginForm.get('email')?.hasError('email') &&
+                loginForm.get('email')?.touched) {
+<handy-input-message
+              class="error-message"
+            >
+              Please enter a valid email
+            </handy-input-message>
+}
+          </handy-input-messages>
+        </handy-input-wrapper>
+
+        <!-- Password Field -->
+        <handy-input-wrapper class="full-width">
+          <input
+            handyInput
+            class="full-width"
+            formControlName="password"
+            placeholder="Your password"
+            type="password"
+            [class.invalid]="
+              loginForm.get('password')?.invalid &&
+              loginForm.get('password')?.touched
+            "
+          />
+          <handy-input-messages>
+            @if (loginForm.get('password')?.hasError('required') &&
+                loginForm.get('password')?.touched) {
+<handy-input-message
+              class="error-message"
+            >
+              Password is required
+            </handy-input-message>
+}
+          </handy-input-messages>
+        </handy-input-wrapper>
+
+        @for (errorMessage of errorMessages; track trackByIndex($index, errorMessage)) {
+<p class="error-message">
+          {{ errorMessage }}
+        </p>
+}
+
+        <handy-button
+          class="handy-button primary full-width"
+          type="submit"
+          [loading]="isLoading"
+          [disabled]="loginForm.invalid || isLoading"
+        >
+          @if (!isLoading) {
+<span>Login</span>
+}
+          @if (isLoading) {
+<span>Logging in...</span>
+}
+        </handy-button>
+      </form>
+}
+
+      <!-- 2FA Form -->
+      @if (currentView === 'twoFA') {
+<form
+        [formGroup]="twoFAForm"
+        class="full-width"
+        class="full-width layout-column gap-1"
+      >
+        <div class="twofa-instructions layout-column gap-0-5">
+          @if (twoFAMessage) {
+<p>{{ twoFAMessage }}</p>
+}
+          @if (twoFAMethod) {
+<p>
+            Verification code sent via <strong>{{ twoFAMethod }}</strong>
+          </p>
+}
+        </div>
+
+        <!-- Verification Code Field -->
+        <handy-input-wrapper class="full-width">
+          <handy-two-factor-input
+            [formControl]="twoFACode"
+            [codeLength]="6"
+            [patternType]="'numeric'"
+            [loading]="isLoading"
+            (codeComplete)="onTwoFASubmit()"
+          ></handy-two-factor-input>
+        </handy-input-wrapper>
+
+        @for (errorMessage of errorMessages; track trackByIndex($index, errorMessage)) {
+<p class="error-message">
+          {{ errorMessage }}
+        </p>
+}
+
+        <div class="layout-row gap-1">
+          <handy-button
+            class="handy-button secondary"
+            type="button"
+            (click)="backToCredentials()"
+            [disabled]="isLoading"
+          >
+            Back
+          </handy-button>
+
+          <handy-button
+            class="handy-button primary"
+            type="submit"
+            [disabled]="twoFAForm.invalid || isLoading"
+            class="handy-button primary flex"
+          >
+            @if (!isLoading) {
+<span>Verify</span>
+}
+            @if (isLoading) {
+<span>Verifying...</span>
+}
+          </handy-button>
+        </div>
+      </form>
+}
+    </div>
+  </div>
+</div>

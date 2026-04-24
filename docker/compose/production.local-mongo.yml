@@ -1,0 +1,180 @@
+name: ${STACK_NAME:-handy-multiplayer-server}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Volumes
+# ─────────────────────────────────────────────────────────────────────────────
+volumes:
+  app-admin-panel-cache:
+    driver: local
+  redis-data:
+    driver: local
+  mongodb-data:
+    driver: local
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Networks
+# ─────────────────────────────────────────────────────────────────────────────
+networks:
+  hms-network:
+    name: hms-network
+    driver: bridge
+  hms-internal-network:
+    name: hms-internal-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "172.16.0.0/21"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Services
+# ─────────────────────────────────────────────────────────────────────────────
+services:
+  # ───────────────────────────────────────────────────────────────────────────
+  # HMS SYSTEM (NestJS)
+  # ───────────────────────────────────────────────────────────────────────────
+  hms-system:
+    container_name: "${STACK_SYSTEM:-hms-system}"
+    build:
+      context: .
+      dockerfile: app-system/docker/Dockerfile
+      target: production
+    image: ${APP_OWNER}/${STACK_SYSTEM:-hms-system}:production
+    ports:
+      - "${HMS_SYSTEM_PORT:-81}:${HMS_SYSTEM_APP_PORT:-3000}"
+    environment:
+      - PORT=${HMS_SYSTEM_APP_PORT:-3000}
+      - NODE_ENV=production
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - DB_GAME_HOST=hms-db-game
+      - DB_GAME_PORT=${DB_GAME_PORT:-27017}
+      - DB_GAME_DATABASE=${DB_GAME_DATABASE}
+    env_file:
+      - ./.env
+    networks:
+      hms-network: {}
+      hms-internal-network:
+        ipv4_address: 172.16.0.3
+    depends_on:
+      hms-redis:
+        condition: service_healthy
+      hms-db-game:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-fsS",
+          "http://localhost:${HMS_SYSTEM_APP_PORT:-3000}/v1/health",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # HMS API (NestJS)
+  # ───────────────────────────────────────────────────────────────────────────
+  hms-api:
+    container_name: "${STACK_API:-hms-api}"
+    build:
+      context: .
+      dockerfile: app-api/docker/Dockerfile
+      target: production
+    image: ${APP_OWNER}/${STACK_API:-hms-api}:production
+    ports:
+      - "${HMS_API_PORT:-80}:${HMS_API_APP_PORT:-3000}"
+    environment:
+      - PORT=${HMS_API_APP_PORT:-3000}
+      - NODE_ENV=production
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - DB_GAME_HOST=hms-db-game
+      - DB_GAME_PORT=${DB_GAME_PORT:-27017}
+      - DB_GAME_DATABASE=${DB_GAME_DATABASE}
+    env_file:
+      - ./.env
+    networks:
+      hms-network: {}
+      hms-internal-network:
+        ipv4_address: 172.16.0.2
+    depends_on:
+      hms-system:
+        condition: service_healthy
+      hms-redis:
+        condition: service_healthy
+      hms-db-game:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-fsS",
+          "http://localhost:${HMS_API_APP_PORT:-3000}/v1/health",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # REDIS
+  # ───────────────────────────────────────────────────────────────────────────
+  hms-redis:
+    container_name: ${STACK_REDIS:-hms-redis}
+    image: "redis:7.2.5"
+    command:
+      - "redis-server"
+      - "/usr/local/etc/redis/redis.conf"
+      - "--requirepass"
+      - "${REDIS_PASSWORD:?REDIS_PASSWORD not set}"
+    volumes:
+      - "redis-data:/data"
+      - "./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro,z"
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    networks:
+      hms-internal-network:
+        ipv4_address: 172.16.0.4
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'redis-cli -a "$REDIS_PASSWORD" --no-auth-warning PING >/dev/null 2>&1',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # MONGODB LOCAL (PRODUCTION)
+  # ───────────────────────────────────────────────────────────────────────────
+  hms-db-game:
+    container_name: ${STACK_DB_GAME:-hms-db-game}
+    image: "mongo:7.0.12"
+    ports:
+      - "${DB_GAME_PORT:-27017}:27017"
+    environment:
+      MONGO_INITDB_DATABASE: ${DB_GAME_DATABASE}
+    command:
+      - bash
+      - -c
+      - |
+        set -e
+        mongod --bind_ip_all --replSet rs0 & \
+        /docker-entrypoint-initdb.d/init-games-database-replicaset.sh && wait
+    volumes:
+      - "mongodb-data:/data/db"
+      - "./docker/database/init-games-database-replicaset.sh:/docker-entrypoint-initdb.d/init-games-database-replicaset.sh:ro,z"
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "rs.status().ok"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    networks:
+      hms-network: {}

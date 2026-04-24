@@ -1,0 +1,31 @@
+name: hms-mailhog-standalone
+
+# ──────────────────────────────────────────────────────────────────────────────
+# NETWORKS
+# ──────────────────────────────────────────────────────────────────────────────
+networks:
+  hms-network:
+    external: true
+
+# ──────────────────────────────────────────────────────────────────────────────
+# SERVICES
+# ──────────────────────────────────────────────────────────────────────────────
+services:
+  # Standalone MailHog service for development and testing.
+  mailhog-standalone:
+    container_name: hms-mailhog
+    image: mailhog/mailhog:latest
+
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+
+    networks:
+      - hms-network
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8025/ >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s

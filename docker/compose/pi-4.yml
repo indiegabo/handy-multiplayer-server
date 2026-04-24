@@ -1,0 +1,68 @@
+# docker-compose.pi-4.yml
+# Overlay for Raspberry Pi 4 (ARM64). Use together with the base compose file.
+
+services:
+  # ────────────────────────────────────────────────────────────────────────────
+  # REDIS (multi-arch)
+  # ────────────────────────────────────────────────────────────────────────────
+  hms-redis:
+    platform: linux/arm64/v8
+    image: "redis:7.2.5"
+    # Environment, volumes, networks and healthcheck come from the base file.
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # POSTGRES (multi-arch)
+  # ────────────────────────────────────────────────────────────────────────────
+  hms-db-main:
+    platform: linux/arm64/v8
+    image: "postgres:16.3"
+    # Keeps ports/env/volumes/healthcheck from the base file.
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # MONGODB (pin to 6.x for ARM64 stability)
+  # ────────────────────────────────────────────────────────────────────────────
+  hms-db-game:
+    platform: linux/arm64/v8
+    image: "mongo:6.0.13"
+    # Keep the same ports and env from the base file.
+    command:
+      - bash
+      - -c
+      - |
+        set -e
+        mongod --bind_ip_all --replSet rs0 & \
+        /docker-entrypoint-initdb.d/init-games-database-replicaset.sh && wait
+    healthcheck:
+      # mongosh is available in the 6.x image and works on arm64.
+      test: ["CMD", "mongosh", "--eval", "rs.status().ok"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # MAILHOG → MAILPIT (multi-arch)
+  # Keep service name as 'mailhog' to satisfy existing depends_on.
+  # ────────────────────────────────────────────────────────────────────────────
+  mailhog:
+    platform: linux/arm64/v8
+    image: axllent/mailpit:latest
+    # Mailpit exposes the same default ports used by MailHog in the base file.
+    # UI: 8025, SMTP: 1025
+    # No additional config required for basic use.
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # NESTJS SERVICES (build on-device → arm64 automatically)
+  # Add platform for clarity; the images built locally will match host arch.
+  # ────────────────────────────────────────────────────────────────────────────
+  hms-system:
+    platform: linux/arm64/v8
+
+  hms-api:
+    platform: linux/arm64/v8
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # ANGULAR DEV SERVER (multi-arch node base)
+  # ────────────────────────────────────────────────────────────────────────────
+  hms-admin-panel:
+    platform: linux/arm64/v8

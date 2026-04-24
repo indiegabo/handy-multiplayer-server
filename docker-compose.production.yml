@@ -1,0 +1,197 @@
+name: ${STACK_NAME:-handy-multiplayer-server}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Volumes
+# ──────────────────────────────────────────────────────────────────────────────
+volumes:
+  app-admin-panel-cache:
+    driver: local
+  redis-data:
+    driver: local
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Networks
+# ──────────────────────────────────────────────────────────────────────────────
+networks:
+  hms-network:
+    name: hms-network
+    driver: bridge
+  hms-internal-network:
+    name: hms-internal-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "172.16.0.0/21"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Services
+# ──────────────────────────────────────────────────────────────────────────────
+services:
+  # ────────────────────────────────────────────────────────────────────────────
+  # STACK READINESS GATE
+  # ────────────────────────────────────────────────────────────────────────────
+  hms-stack-ready:
+    container_name: "${STACK_READY:-hms-stack-ready}"
+    image: "alpine:3.20"
+    command:
+      - "sh"
+      - "-c"
+      - "tail -f /dev/null"
+    depends_on:
+      hms-admin-panel:
+        condition: service_healthy
+    networks:
+      hms-network: {}
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # HMS SYSTEM (NestJS)
+  # ────────────────────────────────────────────────────────────────────────────
+  hms-system:
+    container_name: "${STACK_SYSTEM:-hms-system}"
+    build:
+      context: .
+      dockerfile: app-system/docker/Dockerfile
+      target: production
+    image: ${APP_OWNER}/${STACK_SYSTEM:-hms-system}:production
+    ports:
+      - "${HMS_SYSTEM_PORT:-81}:${HMS_SYSTEM_APP_PORT:-3000}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - PORT=${HMS_SYSTEM_APP_PORT:-3000}
+      - NODE_ENV=production
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    env_file:
+      - ./.env
+    networks:
+      hms-network: {}
+      hms-internal-network:
+        ipv4_address: 172.16.0.3
+    depends_on:
+      hms-redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-fsS",
+          "http://localhost:${HMS_SYSTEM_APP_PORT:-3000}/v1/health",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # HMS API (NestJS)
+  # ────────────────────────────────────────────────────────────────────────────
+  hms-api:
+    container_name: "${STACK_API:-hms-api}"
+    build:
+      context: .
+      dockerfile: app-api/docker/Dockerfile
+      target: production
+      args:
+        ADMIN_BUILD_CONFIG: production
+    image: ${APP_OWNER}/${STACK_API:-hms-api}:production
+    ports:
+      - "${HMS_API_PORT:-80}:${HMS_API_APP_PORT:-3000}"
+    environment:
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - PORT=${HMS_API_APP_PORT:-3000}
+      - NODE_ENV=production
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    env_file:
+      - ./.env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      hms-network: {}
+      hms-internal-network:
+        ipv4_address: 172.16.0.2
+    depends_on:
+      hms-system:
+        condition: service_healthy
+      hms-redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-fsS",
+          "http://localhost:${HMS_API_APP_PORT:-3000}/v1/health",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # REDIS
+  # ────────────────────────────────────────────────────────────────────────────
+  hms-redis:
+    container_name: ${STACK_REDIS:-hms-redis}
+    image: "redis:7.2.5"
+    command:
+      - "redis-server"
+      - "/usr/local/etc/redis/redis.conf"
+      - "--requirepass"
+      - "${REDIS_PASSWORD:?REDIS_PASSWORD not set}"
+    volumes:
+      - "redis-data:/data"
+      - "./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro,z"
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    networks:
+      hms-internal-network:
+        ipv4_address: 172.16.0.4
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'redis-cli -a "$REDIS_PASSWORD" --no-auth-warning PING >/dev/null 2>&1',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # HMS ADMIN PANEL (Angular)
+  # ────────────────────────────────────────────────────────────────────────────
+  hms-admin-panel:
+    container_name: "${STACK_ADMIN_PANEL:-hms-admin-panel}"
+    build:
+      context: .
+      dockerfile: app-admin-panel/docker/Dockerfile
+      target: admin-production
+    image: ${APP_OWNER}/${STACK_ADMIN_PANEL:-hms-admin-panel}:production
+    ports:
+      - "${HMS_ADMIN_PANEL_PORT:-82}:${HMS_ADMIN_PANEL_APP_PORT:-80}"
+    env_file:
+      - ./.env
+    environment:
+      - NODE_ENV=production
+    networks:
+      hms-network: {}
+    depends_on:
+      hms-api:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-fsS",
+          "http://localhost:${HMS_ADMIN_PANEL_APP_PORT:-80}/",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s

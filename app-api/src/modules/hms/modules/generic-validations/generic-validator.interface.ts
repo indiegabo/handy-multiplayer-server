@@ -1,0 +1,1 @@
+export type ValidatorMethod<T = any> = (subject: T) => Promise<boolean> | boolean;

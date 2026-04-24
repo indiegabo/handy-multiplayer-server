@@ -1,0 +1,127 @@
+.user-field-container {
+  position: relative;
+  width: 100%;
+}
+
+/* Search wrapper anchors the floating dropdown */
+.search-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Clear button inside the input */
+.clear-btn {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  z-index: 1001;
+}
+
+/* Dropdown panel */
+.floating-results {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  max-height: 320px;
+  overflow: hidden;
+  border-radius: 6px;
+  background-color: var(--dark-bg-lighter-5);
+  z-index: 1000;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Scrollable users list inside the dropdown */
+.users-list {
+  max-height: 320px;
+  overflow: auto;
+  padding: 0.75em;
+  box-sizing: border-box;
+  padding-right: 6px;
+}
+
+/* Each user row */
+.user-row {
+  min-height: 56px;
+  overflow: hidden;
+  transition: background-color 0.2s ease-in-out;
+  background-color: var(--dark-bg-lighter-5);
+  cursor: pointer;
+  outline: none;
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--dark-bg-lighter-10);
+  }
+}
+
+/* Avatar default size (list) */
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatar-wrapper {
+  min-width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar.placeholder {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+/* Compact selected user view (chip/card) */
+.selected-user {
+  min-height: 44px;
+  padding: 0.35em 0.6em;
+  background-color: var(--dark-bg-lighter-5);
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .avatar-wrapper {
+    min-width: 40px;
+  }
+}
+
+/* Typography and truncation */
+.user-info .username,
+.user-row-info .username {
+  font-weight: 600;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-info .display-name,
+.user-row-info .display-name {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.empty-state {
+  min-height: 64px;
+  padding: 1em;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.loading-wrapper {
+  padding: 0.75em;
+}

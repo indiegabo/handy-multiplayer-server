@@ -1,0 +1,97 @@
+<div class="wrapper layout-column align-center-center">
+  <!-- Loader inicial -->
+  @if (checkingOwnerExistence) {
+<div class="loader-pulsing"></div>
+}
+
+  <!-- Email providing state -->
+  @if (!checkingOwnerExistence &&
+      currentState === 'email-providing' &&
+      !existingOwner) {
+<handy-card
+    class="owner-creation-card"
+    [expandHorizontally]="true"
+  >
+    <handy-card-header>
+      <h2 class="headline-1 mb-05-em">Create System Owner</h2>
+      <p class="subtitle-1">Inform the e-mail of the system owner</p>
+    </handy-card-header>
+
+    <handy-card-body>
+      <app-start-owner-creation-form
+        (done$)="onOwnerCreationDataReceived($event)"
+      ></app-start-owner-creation-form>
+    </handy-card-body>
+  </handy-card>
+}
+
+  <!-- Owner Creation state -->
+  @if (!checkingOwnerExistence &&
+      !existingOwner &&
+      currentState === 'creating-owner' &&
+      ownerCreationStartData) {
+<handy-card
+    class="owner-creation-card"
+    [expandHorizontally]="true"
+  >
+    <handy-card-header>
+      <h2 class="headline-1 mb-05-em">Create System Owner</h2>
+      <p class="subtitle-1">Set up the first administrator account</p>
+    </handy-card-header>
+
+    <handy-card-body>
+      <app-create-admin-form
+        [startData]="ownerCreationStartData"
+        [loading]="creating"
+        (submitted$)="onOwnerFormSubmitted($event)"
+      >
+      </app-create-admin-form>
+    </handy-card-body>
+  </handy-card>
+}
+
+  <!-- Done -->
+  @if (!checkingOwnerExistence && currentState === 'done') {
+<handy-card
+    class="owner-creation-card"
+    [expandHorizontally]="true"
+  >
+    <handy-card-header>
+      <h2 class="headline-1 mb-05-em">All Set</h2>
+      <p class="subtitle-1">Time to download your backup codes!</p>
+    </handy-card-header>
+
+    <handy-card-body>
+      <div class="p-1-em">
+        <h2 class="headline-2 mb-05-em">Backup Codes</h2>
+        <h2 class="subtitle-1 mb-05-em">
+          This is the only time we will show this to you. Please make sure to
+          store them somewhere safe
+        </h2>
+
+        <handy-container>
+          <div
+            class="backup-codes-container full-width p-1-em mb-05-em layout-column"
+          >
+            @for (code of backupCodes; track trackByIndex($index, code)) {
+<div>
+              <span class="backup-code">{{ code }}</span>
+            </div>
+}
+          </div>
+
+          <div class="actions layout-row align-end-center">
+            <handy-button (actionSent)="downloadBackupCodes()">
+              Download .txt
+            </handy-button>
+          </div>
+        </handy-container>
+
+        <div class="actions layout-row align-end-center">
+          <handy-button (actionSent)="navigateToLogin()"> Login </handy-button>
+        </div>
+      </div>
+    </handy-card-body>
+  </handy-card>
+}
+</div>

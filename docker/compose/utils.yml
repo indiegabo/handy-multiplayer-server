@@ -1,0 +1,38 @@
+name: hms-utils
+
+# ---------------------------------------------------------------------------
+# PGADMIN 4 — Admin UI for PostgreSQL
+# ---------------------------------------------------------------------------
+services:
+  pgadmin:
+    image: dpage/pgadmin4:9
+    container_name: pgadmin
+    restart: unless-stopped
+    ports:
+      - "8089:80" # host:container → serve UI on http://localhost:8089
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      # Optional: set dark theme, allow saving passwords, etc.
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "True"
+      PGADMIN_CONFIG_THEME: '"dark"'
+    networks:
+      - hms-network
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+# ---------------------------------------------------------------------------
+# Volumes
+# ---------------------------------------------------------------------------
+volumes:
+  pgadmin-data:
+    driver: local
+
+# ---------------------------------------------------------------------------
+# Networks (use the same networks block as in docker-compose.yml)
+# ---------------------------------------------------------------------------
+networks:
+  hms-network:
+    external: true

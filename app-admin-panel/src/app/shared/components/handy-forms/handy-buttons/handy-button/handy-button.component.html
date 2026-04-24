@@ -1,0 +1,18 @@
+<button
+  mat-button
+  class="handy-button"
+  [type]="type"
+  [class.handy-border]="bordered"
+  [color]="color"
+  [class.spinner]="loading"
+  [class.small]="size === SIZE_SMALL"
+  [class.no-color]="color === 'none'"
+  [class.primary-color]="color === 'primary'"
+  [class.accent-color]="color === 'accent'"
+  [disabled]="loading || disabled"
+  (click)="action($event)"
+>
+  <span class="label-wrapper">
+    <ng-content></ng-content>
+  </span>
+</button>

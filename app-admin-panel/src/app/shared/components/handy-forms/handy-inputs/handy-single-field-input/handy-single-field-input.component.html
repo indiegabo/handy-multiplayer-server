@@ -1,0 +1,77 @@
+<div class="container">
+  @if (!isEditing) {
+<div
+    #displayView
+    class="display-view"
+    [class.bordered]="styleOpts.bordered"
+    [class.rounded]="styleOpts.rounded"
+    (click)="startEditing()"
+  >
+    <p>{{ value }}</p>
+  </div>
+}
+@else {
+  <ng-container *ngTemplateOutlet="formView"></ng-container>
+}
+
+  <ng-template #formView>
+    @if (inputType === 'input') {
+<ng-container>
+      <form #fieldForm class="field-input-form" [formGroup]="form">
+        <handy-input-wrapper class="field-input-wrapper">
+          <input
+            #fieldInput
+            handyInput
+            class="field-input"
+            formControlName="field"
+            [type]="inputMode"
+            (keydown.enter)="onEnterKey($event)"
+            (blur)="onInputBlur()"
+          />
+        </handy-input-wrapper>
+
+        <handy-button
+          [disabled]="form.invalid"
+          [loading]="isLoading"
+          (mousedown)="$event.preventDefault()"
+          (actionSent)="saveChanges()"
+        >
+          Save
+        </handy-button>
+      </form>
+    </ng-container>
+}
+
+    @if (inputType === 'textarea') {
+<ng-container>
+      <form #fieldForm class="field-textarea-form" [formGroup]="form">
+        <handy-input-wrapper class="field-textarea-wrapper">
+          <textarea
+            #fieldInput
+            handyInput
+            class="field-input"
+            formControlName="field"
+            [style.min-height]="
+              styleOpts.inputMinHeight
+                ? styleOpts.inputMinHeight + 'px'
+                : '34px'
+            "
+            (keydown.control.enter)="onEnterKey($event)"
+            (blur)="onInputBlur()"
+          >
+          </textarea>
+        </handy-input-wrapper>
+
+        <handy-button
+          [disabled]="form.invalid"
+          [loading]="isLoading"
+          (mousedown)="$event.preventDefault()"
+          (actionSent)="saveChanges()"
+        >
+          Save
+        </handy-button>
+      </form>
+    </ng-container>
+}
+  </ng-template>
+</div>

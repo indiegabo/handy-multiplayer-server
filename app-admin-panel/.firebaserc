@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "lunglizing-angular": {
+      "hosting": {
+        "localizations-web": [
+          "lunglizing-angular"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "lunglizing-angular"
+  }
+}

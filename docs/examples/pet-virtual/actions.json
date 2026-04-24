@@ -1,0 +1,75 @@
+[
+    {
+        "identifier": "pv-feed",
+        "name": "feed",
+        "aliases": [
+            "f",
+            "givefood"
+        ],
+        "description": "Feed the virtual pet",
+        "args": [
+            {
+                "key": "food",
+                "type": 2,
+                "required": true
+            },
+            {
+                "key": "amount",
+                "type": 3,
+                "required": false,
+                "defaultValue": 1
+            }
+        ],
+        "global_cooldown": 10,
+        "user_cooldown": 30,
+        "admin_only": false,
+        "is_enabled": true
+    },
+    {
+        "identifier": "pv-pet",
+        "name": "pet",
+        "aliases": [
+            "p",
+            "stroke"
+        ],
+        "description": "Pet the virtual companion",
+        "args": [],
+        "global_cooldown": 5,
+        "user_cooldown": 10,
+        "admin_only": false,
+        "is_enabled": true
+    },
+    {
+        "identifier": "pv-clean",
+        "name": "clean",
+        "aliases": [
+            "bath"
+        ],
+        "description": "Clean the pet (remove dirt, increases happiness)",
+        "args": [],
+        "global_cooldown": 60,
+        "user_cooldown": 300,
+        "admin_only": false,
+        "is_enabled": true
+    },
+    {
+        "identifier": "pv-play",
+        "name": "play",
+        "aliases": [
+            "toy"
+        ],
+        "description": "Play with the pet using a toy",
+        "args": [
+            {
+                "key": "toy",
+                "type": 2,
+                "required": false,
+                "defaultValue": "ball"
+            }
+        ],
+        "global_cooldown": 20,
+        "user_cooldown": 60,
+        "admin_only": false,
+        "is_enabled": true
+    }
+]

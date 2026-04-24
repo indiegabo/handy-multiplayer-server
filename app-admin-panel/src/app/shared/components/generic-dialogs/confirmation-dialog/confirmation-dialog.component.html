@@ -1,0 +1,43 @@
+<div class="confirmation-dialog-container p-1-em layout-column">
+  <div class="header layout-row align-start-center gap-0-5">
+    <fa-icon class="icon" [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+    <h2 class="headline-3">{{ data.title }}</h2>
+  </div>
+
+  <hr class="separator" />
+
+  <div class="message">
+    <p>{{ data.message }}</p>
+  </div>
+
+  @if (shouldRequireTypedConfirmation) {
+    <div class="typed-confirmation mt-1-em layout-column gap-0-5">
+      <p class="typed-confirmation-hint">
+        {{ typedConfirmationHint }}
+      </p>
+
+      <input
+        class="typed-confirmation-input"
+        type="text"
+        [value]="typedConfirmation"
+        [placeholder]="
+          data.confirmationInputPlaceholder || 'Type confirmation text'
+        "
+        (input)="onTypedConfirmationInput($event)"
+      />
+    </div>
+  }
+
+  <div class="footer mt-1-em layout-row align-end-center gap-0-5">
+    <handy-button (actionSent)="cancel()">
+      {{ data.cancelText || "Cancel" }}
+    </handy-button>
+    <handy-button
+      color="primary"
+      [disabled]="!canConfirm"
+      (actionSent)="confirm()"
+    >
+      {{ data.confirmText || "Confirm" }}
+    </handy-button>
+  </div>
+</div>

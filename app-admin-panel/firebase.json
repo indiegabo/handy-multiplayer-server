@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "lunglizing-web",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+.not-found-container {
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.error-container {
+  padding: 2rem;
+  min-width: calc(300px - 4rem);
+  min-height: 80px;
+}
+
+.error-text {
+  font-size: 1em;
+}
+
+.error-image-container {
+  img {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media (max-width: var(--tablet)) {
+  .error-container {
+    padding: 1rem;
+    max-width: calc(100vw - 2rem);
+  }
+}

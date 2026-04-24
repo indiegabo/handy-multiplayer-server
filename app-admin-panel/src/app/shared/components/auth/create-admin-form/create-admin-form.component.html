@@ -1,0 +1,209 @@
+<form
+  [formGroup]="form"
+  class="p-05-em layout-column gap-1"
+  (ngSubmit)="submit()"
+  novalidate
+  [attr.aria-busy]="loading"
+>
+  <h2 class="headline-1 mb-05-em">Account Details</h2>
+
+  <!-- Email -->
+  <handy-input-wrapper>
+    <h2 class="subtitle-1 mb-05-em">E-mail</h2>
+
+    <input
+      handyInput
+      formControlName="email"
+      type="email"
+      autocomplete="email"
+      class="full-width"
+      aria-describedby="email-help"
+      [errorCondition]="email.errors && email.touched"
+    />
+
+    <handy-input-messages id="email-errors">
+      @if (email.hasError('required') && email.touched) {
+<handy-input-message
+        type="error"
+      >
+        Email is required
+      </handy-input-message>
+}
+
+      @if (email.hasError('email') && email.touched) {
+<handy-input-message
+        type="error"
+      >
+        Please enter a valid email
+      </handy-input-message>
+}
+    </handy-input-messages>
+  </handy-input-wrapper>
+
+  <!-- Name -->
+  <handy-input-wrapper>
+    <h2 class="subtitle-1 mb-05-em">Name</h2>
+
+    <input
+      handyInput
+      formControlName="name"
+      type="text"
+      autocomplete="name"
+      class="full-width"
+      aria-describedby="name"
+      [errorCondition]="name.errors && name.touched"
+    />
+
+    <handy-input-messages id="name-errors">
+      @if (name.hasError('required') && name.touched) {
+<handy-input-message
+        type="error"
+      >
+        Name is required
+      </handy-input-message>
+}
+    </handy-input-messages>
+  </handy-input-wrapper>
+
+  <!-- Password -->
+  <handy-input-wrapper>
+    <h2 class="subtitle-1 mb-05-em">Password</h2>
+
+    <handy-password-field
+      label="Password"
+      [control]="password"
+      [attr.autocomplete]="'new-password'"
+      [errorCondition]="password.errors && password.touched"
+      aria-describedby="password-errors"
+    >
+    </handy-password-field>
+
+    <handy-input-messages id="password-errors">
+      @if (password.hasError('required') && password.touched) {
+<handy-input-message
+        type="error"
+      >
+        Password is required
+      </handy-input-message>
+}
+
+      @if (password.hasError('minlength') && password.touched) {
+<handy-input-message
+        type="error"
+      >
+        Password must be at least 8 characters
+      </handy-input-message>
+}
+
+      @if (password.hasError('pattern') && password.touched) {
+<handy-input-message
+        type="error"
+      >
+        Password must contain at least one uppercase letter, one lowercase
+        letter, and one number
+      </handy-input-message>
+}
+    </handy-input-messages>
+  </handy-input-wrapper>
+
+  <!-- Password Confirmation -->
+  <handy-input-wrapper>
+    <h2 class="subtitle-1 mb-05-em">Password Confirmation</h2>
+
+    <handy-password-field
+      label="Confirm Password"
+      [control]="password_confirmation"
+      [attr.autocomplete]="'new-password'"
+      [errorCondition]="
+        (password_confirmation.errors && password_confirmation.touched) ||
+        (form.hasError('mismatch') && password_confirmation.touched)
+      "
+      aria-describedby="password-confirm-errors"
+    >
+    </handy-password-field>
+
+    <handy-input-messages id="password-confirm-errors">
+      @if (password_confirmation.hasError('required') &&
+          password_confirmation.touched) {
+<handy-input-message
+        type="error"
+      >
+        Please confirm your password
+      </handy-input-message>
+}
+
+      @if (form.hasError('mismatch') &&
+          password_confirmation.touched &&
+          password_confirmation.value) {
+<handy-input-message
+        type="error"
+      >
+        Passwords do not match
+      </handy-input-message>
+}
+    </handy-input-messages>
+  </handy-input-wrapper>
+
+  <!-- 2FA -->
+  <h2 class="headline-1 mb-05-em">Two Factor Authentication</h2>
+
+  <h2 class="headline-2 mb-05-em">
+    Scan the QR Code below with your authenticator app.
+  </h2>
+
+  <handy-container>
+    <div
+      class="qrcode-container full-width p-1-em layout-column align-center-center"
+    >
+      <img class="qrcode" [src]="startData.qrcode_url" alt="2FA QR Code" />
+
+      <!-- <div class="manual-entry mt-1-em" fxLayout="row" fxLayoutGap="0.5em">
+        <span class="mono">
+          {{ startData.manual_entry_code }}
+        </span>
+
+        <handy-button type="button" (actionSent)="copyManualCode()">
+          Copy
+        </handy-button>
+      </div> -->
+    </div>
+  </handy-container>
+
+  <handy-input-wrapper>
+    <h2 class="subtitle-1 mb-05-em">
+      Authentication code from your authenticator app
+    </h2>
+
+    <input
+      handyInput
+      formControlName="twofa_code"
+      class="full-width"
+      inputmode="numeric"
+      autocomplete="one-time-code"
+      maxlength="6"
+      aria-describedby="twofa-errors"
+      [errorCondition]="twofa_code.errors && twofa_code.touched"
+    />
+
+    <handy-input-messages id="twofa-errors">
+      @if (twofa_code.hasError('required') && twofa_code.touched) {
+<handy-input-message
+        type="error"
+      >
+        Enter the 2FA code provided by your authenticator app
+      </handy-input-message>
+}
+    </handy-input-messages>
+  </handy-input-wrapper>
+
+  <!-- Submit -->
+  <div class="actions layout-row align-end-center">
+    <handy-button
+      type="submit"
+      [disabled]="form.invalid || form.pending || loading"
+      [loading]="loading"
+    >
+      Create Admin Account
+    </handy-button>
+  </div>
+</form>

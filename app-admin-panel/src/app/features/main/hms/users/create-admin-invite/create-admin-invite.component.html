@@ -1,0 +1,56 @@
+<div class="page-header">
+  <handy-card class="create-admin-invite-card" [expandHorizontally]="true">
+    <handy-card-header>
+      <h2 class="headline-1 mb-05-em">Create Admin Invite</h2>
+      <p class="subtitle-1">
+        Send an invitation e-mail so a new administrator can create an account.
+      </p>
+    </handy-card-header>
+
+    <handy-card-body>
+      <form
+        [formGroup]="form"
+        class="p-05-em layout-column gap-1"
+        (ngSubmit)="submit()"
+      >
+        <handy-input-wrapper>
+          <h2 class="subtitle-1 mb-05-em">Invitee E-mail</h2>
+          <input
+            handyInput
+            formControlName="email"
+            type="email"
+            class="full-width"
+            [errorCondition]="email.errors && email.touched"
+          />
+          <handy-input-messages>
+            @if (email.hasError('required') && email.touched) {
+<handy-input-message
+              type="error"
+            >
+              Email is required
+            </handy-input-message>
+}
+
+            @if (email.hasError('email') && email.touched) {
+<handy-input-message
+              type="error"
+            >
+              Please enter a valid email
+            </handy-input-message>
+}
+          </handy-input-messages>
+        </handy-input-wrapper>
+
+        <div class="actions layout-row align-end-center">
+          <handy-button
+            type="submit"
+            [disabled]="form.invalid || sending"
+            [loading]="sending"
+          >
+            Send Invite
+          </handy-button>
+        </div>
+      </form>
+    </handy-card-body>
+  </handy-card>
+</div>

@@ -1,0 +1,24 @@
+<div class="dialog-wrapper p-1-em">
+  <h2 class="dialog-title">{{ data.title || "Crop image" }}</h2>
+
+  <div class="dialog-content layout-column gap-1">
+    <div class="cropper-wrap">
+      <image-cropper
+        backgroundColor="var(--dark-bg-lighter-5)"
+        format="png"
+        [imageFile]="data.file"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="data.aspectRatio"
+        [output]="'base64'"
+        (imageCropped)="imageCropped($event)"
+      ></image-cropper>
+    </div>
+
+    <div class="dialog-actions layout-row gap-1 align-end-center">
+      <handy-button (actionSent)="cancel()">Cancel</handy-button>
+      <handy-button color="primary" [disabled]="!cropped" (actionSent)="save()">
+        Crop
+      </handy-button>
+    </div>
+  </div>
+</div>

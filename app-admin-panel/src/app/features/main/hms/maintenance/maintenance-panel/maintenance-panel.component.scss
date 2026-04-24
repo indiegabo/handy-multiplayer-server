@@ -1,0 +1,22 @@
+/* ─────────────────────────────────────────────────────────────────────
+ * Status pill
+ * ──────────────────────────────────────────────────────────────────── */
+/* Uses bg-* utilities for background and .handy-border for border. */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  line-height: 1;
+  font-size: 12px;
+  font-weight: 600;
+  /* Padding and radius come from global utility classes:
+     - p-05-em
+     - border-radius-5
+  */
+}
+
+/* Optional: mild emphasis when empty (no direct background). */
+.status-pill:empty::before {
+  content: "—";
+}

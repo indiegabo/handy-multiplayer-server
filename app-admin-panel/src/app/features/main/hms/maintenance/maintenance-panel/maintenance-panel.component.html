@@ -1,0 +1,141 @@
+<div class="panel border-radius-5 p-1-em layout-column gap-0-5">
+  @if (viewState$ | async; as vs) {
+<ng-container>
+    <div class="header layout-row align-space-between-center">
+      <h2 class="headline-2">Maintenance Panel</h2>
+
+      <span
+        class="status-pill border-radius-5 p-05-em handy-border"
+        [ngClass]="statusClass$ | async"
+      >
+        {{ (readableStatus$ | async) ?? "Unknown" }}
+      </span>
+    </div>
+
+    <div class="actions mt-1-em layout-row gap-1">
+      @if (vs.canCancelPreparing) {
+<handy-button
+        [disabled]="(submitting$ | async) ?? false"
+        [loading]="(submitting$ | async) ?? false"
+        color="warn"
+        (actionSent)="onCancelPreparing()"
+      >
+        Cancel preparation
+      </handy-button>
+}
+
+      @if (vs.canEndMaintenance) {
+<handy-button
+        [disabled]="(ending$ | async) ?? false"
+        [loading]="(ending$ | async) ?? false"
+        color="accent"
+        (actionSent)="onEndMaintenance()"
+      >
+        End maintenance
+      </handy-button>
+}
+    </div>
+
+    <!-- Scheduling only when system is Up and not optimistically suppressed -->
+    @if (canShowScheduling$ | async) {
+<div class="scheduling">
+      <h3 class="headline-3 mb-1-em">Scheduling</h3>
+      <form
+        class="form p-1-em bg-5 border-radius-5 layout-column gap-1"
+        [formGroup]="form"
+      >
+        <div class="card border-radius-5" [class.disabled]="vs.formDisabled">
+          <div class="layout-row gap-1 align-start-start">
+            <!-- Delay (minutes) -->
+            <handy-input-wrapper class="full-width">
+              <h2 class="subtitle-1 mb-05-em">
+                Delay for next maintenance (minutes)
+              </h2>
+              <input
+                handyInput
+                class="full-width"
+                placeholder="Delay (minutes)"
+                formControlName="delayMinutes"
+                [errorCondition]="
+                  form.controls.delayMinutes.invalid &&
+                  form.controls.delayMinutes.touched
+                "
+                [fullWidth]="true"
+              />
+              <handy-input-messages class="mt-05-em">
+                @if (form.controls.delayMinutes.hasError('min') &&
+                    form.controls.delayMinutes.touched) {
+<handy-input-message
+                  type="warning"
+                >
+                  Delay must be 0 or more.
+                </handy-input-message>
+}
+              </handy-input-messages>
+            </handy-input-wrapper>
+
+            <!-- Duration (minutes) -->
+            <handy-input-wrapper class="full-width">
+              <h2 class="subtitle-1 mb-05-em">Estimated Duration (minutes)</h2>
+              <input
+                handyInput
+                class="full-width"
+                placeholder="Duration (minutes)"
+                formControlName="durationMinutes"
+                [errorCondition]="
+                  form.controls.durationMinutes.invalid &&
+                  form.controls.durationMinutes.touched
+                "
+              />
+              <handy-input-messages class="mt-05-em">
+                @if (form.controls.durationMinutes.hasError('min') &&
+                    form.controls.durationMinutes.touched) {
+<handy-input-message
+                  type="warning"
+                >
+                  Duration must be at least 1 minute.
+                </handy-input-message>
+}
+              </handy-input-messages>
+            </handy-input-wrapper>
+          </div>
+
+          <handy-input-messages class="mt-05-em">
+            @if (vs.formDisabled) {
+<handy-input-message type="warning">
+              Form is disabled while maintenance is preparing, active or
+              blocked.
+            </handy-input-message>
+}
+          </handy-input-messages>
+        </div>
+
+        <div class="layout-row gap-1 align-end-center">
+          @if (vs.canSchedule) {
+<handy-button
+            [disabled]="form.invalid || ((submitting$ | async) ?? false)"
+            [loading]="(submitting$ | async) ?? false"
+            color="primary"
+            (actionSent)="onSchedule()"
+          >
+            Schedule maintenance
+          </handy-button>
+}
+          @if (isDev) {
+<handy-button
+            [disabled]="(submitting$ | async) ?? false"
+            [loading]="(submitting$ | async) ?? false"
+            color="warn"
+            (actionSent)="startMaintenanceDev()"
+            class="ml-05-em"
+          >
+            Start Immediately (dev)
+          </handy-button>
+}
+        </div>
+      </form>
+    </div>
+}
+  </ng-container>
+}
+</div>

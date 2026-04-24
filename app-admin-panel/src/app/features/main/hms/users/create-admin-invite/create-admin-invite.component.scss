@@ -1,0 +1,17 @@
+:host {
+  display: block;
+}
+
+.page-header {
+  width: 100%;
+  padding: 1em;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-admin-invite-card {
+  width: 100%;
+  max-width: 720px;
+}

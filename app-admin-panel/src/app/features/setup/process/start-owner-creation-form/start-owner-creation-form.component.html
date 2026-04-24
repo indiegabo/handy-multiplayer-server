@@ -1,0 +1,40 @@
+<form
+  [formGroup]="form"
+  class="p-05-em layout-column gap-1"
+  (ngSubmit)="startProcess()"
+>
+  <!-- Email -->
+  <handy-input-wrapper>
+    <h2 class="subtitle-1 mb-05-em">E-mail</h2>
+    <input
+      handyInput
+      formControlName="email"
+      type="email"
+      class="full-width"
+      [errorCondition]="email.errors && email.touched"
+    />
+    <handy-input-messages>
+      @if (email.hasError('required') && email.touched) {
+<handy-input-message
+        type="error"
+      >
+        Email is required
+      </handy-input-message>
+}
+      @if (email.hasError('email') && email.touched) {
+<handy-input-message
+        type="error"
+      >
+        Please enter a valid email
+      </handy-input-message>
+}
+    </handy-input-messages>
+  </handy-input-wrapper>
+
+  <!-- Botão de submit -->
+  <div class="actions layout-row align-end-center">
+    <handy-button type="submit" [disabled]="form.invalid" [loading]="loading">
+      Send
+    </handy-button>
+  </div>
+</form>

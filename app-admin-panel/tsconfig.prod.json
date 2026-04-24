@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    /* ───────────────────────────────────────────────────────────────
+     * Production path mapping: consume built declarations from dist
+     * to ensure consistency with published artifacts at runtime.
+     * ───────────────────────────────────────────────────────────────
+     */
+    "paths": {
+      "src/*": ["./src/*"],
+      "@hms/shared-types": [
+        "../app-shared-types/dist/index.d.ts",
+        "../app-shared-types/dist"
+      ],
+      "@hms/shared-types/*": ["../app-shared-types/dist/*"]
+    }
+  },
+  "exclude": ["dist", "**/dist/**", "../**/dist/**"]
+}

@@ -1,0 +1,17 @@
+<div
+  class="image-cropper-container lung-border border-radius-5 layout-row align-center-center"
+>
+  <image-cropper
+    backgroundColor="rgba(0,0,0,0)"
+    [style]="{ width: size.width + 'px', height: size.height + 'px' }"
+    [imageFile]="file"
+    [maintainAspectRatio]="true"
+    [resizeToWidth]="exportSize.width"
+    [output]="'base64'"
+    [aspectRatio]="2 / 3"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded($event)"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"
+  ></image-cropper>
+</div>

@@ -1,0 +1,155 @@
+{
+  "version": "2.35.2",
+  "name": "sgserver",
+  "description": "The backend for the Streaming Games solution",
+  "author": {
+    "name": "IndieGabo",
+    "email": "indiegabodev@gmail.com"
+  },
+  "private": true,
+  "packageManager": "npm@10.9.0",
+  "workspaces": [
+    "app-api",
+    "app-system",
+    "app-shared-types"
+  ],
+  "scripts": {
+    "test:unit": "npm run test:unit:api && npm run test:unit:system",
+    "test:unit:api": "npm --workspace @hms/api run test",
+    "test:unit:system": "npm --workspace @hms/system run test",
+    "test:unit:admin": "npm --prefix app-admin-panel run test",
+    "test:e2e": "npm run test:e2e:api && npm run test:e2e:system",
+    "test:e2e:api": "npm --workspace @hms/api run test:e2e",
+    "test:e2e:system": "npm --workspace @hms/system run test:e2e",
+    "ci:tests": "npm run test:unit && npm run test:e2e",
+    "lint": "npm run lint:api && npm run lint:system && npm run lint:admin",
+    "lint:api": "npm --workspace @hms/api run lint",
+    "lint:system": "npm --workspace @hms/system run lint",
+    "lint:admin": "npm --prefix app-admin-panel run lint",
+    "build": "npm run build:api && npm run build:system && npm run build:admin",
+    "build:api": "npm --workspace @hms/api run build",
+    "build:system": "npm --workspace @hms/system run build",
+    "build:admin": "npm --prefix app-admin-panel run build",
+    "start:admin": "npm --prefix app-admin-panel run start",
+    "watch:admin": "npm --prefix app-admin-panel run watch",
+    "build:admin:staging": "npm --prefix app-admin-panel run build-staging",
+    "build:admin:production": "npm --prefix app-admin-panel run build-production",
+    "clean": "rm -rf ./node_modules",
+    "clean:workspaces": "rm -rf ./app-api/node_modules ./app-system/node_modules ./app-admin-panel/node_modules ./app-shared-types/node_modules",
+    "clean:locks": "rm -f ./package-lock.json ./app-api/package-lock.json ./app-system/package-lock.json ./app-admin-panel/package-lock.json ./app-shared-types/package-lock.json",
+    "clean:all": "npm run clean && npm run clean:workspaces && npm run clean:locks",
+    "bootstrap": "npm install",
+    "admin:install": "npm --prefix app-admin-panel install",
+    "reinstall": "npm run clean:all && npm run bootstrap && npm run admin:install",
+    "shared:regenerate": "npm --workspace @hms/shared-types run generate:types-barrel",
+    "shared:build": "npm --workspace @hms/shared-types run build",
+    "check:hms-boundaries": "node scripts/check-hms-boundaries.js",
+    "release": "npx semantic-release",
+    "release:dry": "npx semantic-release --dry-run"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/github",
+      [
+        "@semantic-release/exec",
+        {
+          "prepareCmd": "node scripts/semantic-update-version.js ${nextRelease.version}"
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "CHANGELOG.md",
+            "package.json",
+            "package-lock.json"
+          ],
+          "message": "chore(release): 🚀 ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
+    ],
+    "tagFormat": "v${version}"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "@types/pg": "^8.20.0",
+    "@types/semver": "^7.7.1",
+    "qs": "^6.14.0",
+    "rxjs": "^7.8.2",
+    "semver": "^7.7.3",
+    "wait-on": "^9.0.3"
+  },
+  "overrides": {
+    "rxjs": "^7.8.2",
+    "glob": ">=10.4.6 <11",
+    "@nestjs/common": "11.1.17",
+    "@nestjs/core": "11.1.17",
+    "@nestjs/platform-express": "11.1.17",
+    "@nestjs/websockets": "11.1.17",
+    "@nestjs/platform-socket.io": "11.1.17",
+    "@nestjs/testing": "11.1.17",
+    "@nestjs/axios": "^4.0.1",
+    "@nestjs/mapped-types": "2.1.0",
+    "@nestjs/mongoose": "^11.0.3",
+    "@nestjs/passport": "^11.0.5",
+    "@nestjs/serve-static": "^5.0.3",
+    "@nestjs/terminus": "11.1.1",
+    "@nestjs/swagger": "11.2.6",
+    "@nestjs/jwt": "11.0.0",
+    "@nestjs/config": "4.0.2",
+    "@nestjs/event-emitter": "3.0.1",
+    "@nestjs/throttler": "^6.4.0",
+    "@nestjs/typeorm": "^11.0.0",
+    "ioredis": "5.10.1",
+    "dockerode": "4.0.10",
+    "docker-modem": "5.0.3",
+    "chalk": "4.1.2",
+    "ansi-styles": "4.3.0",
+    "color-convert": "2.0.1",
+    "color-name": "1.1.4",
+    "ansi-regex": "5.0.1",
+    "strip-ansi": "6.0.1",
+    "wrap-ansi": "7.0.0",
+    "string-width": "4.2.3",
+    "supports-color": "8.1.1",
+    "cliui": "8.0.1",
+    "@isaacs/cliui": "8.0.2",
+    "jackspeak": "3.4.3",
+    "minipass": "7.1.2",
+    "tar": "7.5.11",
+    "lodash": "4.18.1",
+    "serialize-javascript": "7.0.6",
+    "brace-expansion": "2.0.3",
+    "engine.io-client": "6.6.1",
+    "socket.io": "4.8.1",
+    "socket.io-adapter": "2.5.5",
+    "boxen": "5.1.2",
+    "body-parser": "1.20.3",
+    "finalhandler": "1.3.1",
+    "send": "0.19.0",
+    "serve-static": "1.16.2",
+    "mquery": "5.0.0",
+    "yargs": "17.7.2",
+    "qrcode": "1.5.4",
+    "qs": "^6.14.0",
+    "@nestjs-modules/ioredis": {
+      "@nestjs/terminus": "11.1.1"
+    },
+    "path-to-regexp": "8.4.0",
+    "picomatch": "4.0.4",
+    "ajv": "8.18.0",
+    "multer": "2.1.1",
+    "undici": "6.24.0",
+    "js-yaml": "4.1.1",
+    "socket.io-parser": "4.2.6",
+    "file-type": "21.3.2",
+    "nodemailer": "8.0.4",
+    "discord.js": "^14.19.3"
+  }
+}

@@ -1,0 +1,10 @@
+#auth-top-bar {
+  background-color: var(--dark-bg-lighter-5);
+  z-index: 30;
+  height: var(--main-top-bar-height);
+  padding: 0.5em;
+}
+
+.logo img {
+  height: 40px;
+}

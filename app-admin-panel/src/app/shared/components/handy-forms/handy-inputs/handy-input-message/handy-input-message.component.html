@@ -1,0 +1,10 @@
+<p
+  class="message-span border-radius-5"
+  [ngClass]="{
+    error: type === 'error',
+    success: type === 'success',
+    warning: type === 'warning'
+  }"
+>
+  <ng-content></ng-content>
+</p>

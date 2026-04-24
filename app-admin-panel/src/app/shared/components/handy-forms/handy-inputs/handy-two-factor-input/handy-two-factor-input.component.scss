@@ -1,0 +1,66 @@
+.handy-two-factor-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: 100%;
+
+  .input-fields {
+    display: flex;
+    justify-content: center;
+    gap: 0.5em;
+
+    mat-form-field {
+      width: 3em;
+
+      &.error {
+        .mdc-notched-outline__leading,
+        .mdc-notched-outline__notch,
+        .mdc-notched-outline__trailing {
+          border-color: var(--errorColor) !important;
+        }
+      }
+
+      &.success {
+        .mdc-notched-outline__leading,
+        .mdc-notched-outline__notch,
+        .mdc-notched-outline__trailing {
+          border-color: var(--successColor) !important;
+        }
+      }
+
+      input {
+        text-align: center;
+        font-size: 1.2em;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: center;
+
+    button {
+      min-width: 120px;
+    }
+  }
+}
+
+// Dark theme adjustments
+.dark-theme {
+  .handy-two-factor-container {
+    mat-form-field {
+      &.error {
+        .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+          color: var(--errorColor) !important;
+        }
+      }
+
+      &.success {
+        .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+          color: var(--successColor) !important;
+        }
+      }
+    }
+  }
+}

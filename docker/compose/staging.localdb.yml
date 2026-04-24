@@ -1,0 +1,118 @@
+# docker-compose.staging.localdb.yml
+#
+# Overrides to enable local Postgres, MongoDB and Mailhog for staging.
+# Usage:
+#   docker compose -f docker-compose.staging.yml \
+#                  -f docker-compose.staging.localdb.yml \
+#                  up -d --build
+
+services:
+  # Ensure API waits for local DBs and Mailhog
+  hms-api:
+    depends_on:
+      hms-system:
+        condition: service_started
+      hms-redis:
+        condition: service_healthy
+      hms-db-main:
+        condition: service_healthy
+      hms-db-game:
+        condition: service_healthy
+      mailhog:
+        condition: service_started
+
+  # Ensure SYSTEM waits for local DBs and Mailhog
+  hms-system:
+    depends_on:
+      hms-redis:
+        condition: service_healthy
+      hms-db-main:
+        condition: service_healthy
+      hms-db-game:
+        condition: service_healthy
+      mailhog:
+        condition: service_started
+
+  # POSTGRES — Main DB (local)
+  hms-db-main:
+    container_name: ${STACK_DB_MAIN:-hms-db-main}
+    image: postgres:16.3
+    ports:
+      - "${DB_MAIN_PORT:-5432}:5432"
+    environment:
+      POSTGRES_PASSWORD: "${DB_MAIN_ADMIN_PASSWORD}"
+      POSTGRES_DB: "${DB_MAIN_DATABASE}"
+      POSTGRES_USER: "postgres"
+      POSTGRES_INITDB_ARGS: "--auth=trust --username=postgres"
+      DB_MAIN_USERNAME: "${DB_MAIN_USERNAME}"
+      DB_MAIN_PASSWORD: "${DB_MAIN_PASSWORD}"
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+      - ./docker/database/create-main-database.sh:/docker-entrypoint-initdb.d/10-create-main-database.sh:ro,z
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >
+          PGPASSWORD='${DB_MAIN_PASSWORD}' psql -U "${DB_MAIN_USERNAME}"
+          -d "${DB_MAIN_DATABASE}" -v ON_ERROR_STOP=1 -c 'SELECT 1;' &&
+          PGPASSWORD='${DB_MAIN_PASSWORD}' psql -U "${DB_MAIN_USERNAME}"
+          -d "${DB_MAIN_DATABASE}" -v ON_ERROR_STOP=1 -c
+          'CREATE TABLE IF NOT EXISTS public.healthcheck_test_table (id INT);
+          DROP TABLE IF EXISTS public.healthcheck_test_table;'
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    networks:
+      hms-network:
+        aliases:
+          - ${DB_MAIN_HOST:-hms-db-main}
+    restart: unless-stopped
+
+  # MONGODB — Games DB (local)
+  hms-db-game:
+    container_name: ${STACK_DB_GAME:-hms-db-game}
+    image: mongo:7.0.12
+    ports:
+      - "${DB_GAME_PORT:-27017}:27017"
+    environment:
+      MONGO_INITDB_DATABASE: ${DB_GAME_DATABASE}
+    command:
+      - bash
+      - -lc
+      - |
+        set -e
+        mongod --bind_ip_all --replSet rs0 & \
+        /docker-entrypoint-initdb.d/init-games-database-replicaset.sh && wait
+    volumes:
+      - mongodb-data:/data/db
+      - ./docker/database/init-games-database-replicaset.sh:/docker-entrypoint-initdb.d/init-games-database-replicaset.sh:ro,z
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "rs.status().ok"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+    networks:
+      hms-network:
+        aliases:
+          - ${DB_GAME_HOST:-hms-db-game}
+    restart: unless-stopped
+
+  # MAILHOG — SMTP for staging tests (optional)
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: hms-mailhog
+    ports:
+      - "8025:8025" # Web UI
+      - "1025:1025" # SMTP
+    networks:
+      hms-network: {}
+    restart: unless-stopped
+
+# Local volumes for DBs
+volumes:
+  postgresql-data:
+    driver: local
+  mongodb-data:
+    driver: local

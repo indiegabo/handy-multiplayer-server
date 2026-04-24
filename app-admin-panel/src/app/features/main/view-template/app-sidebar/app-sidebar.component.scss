@@ -1,0 +1,17 @@
+:host {
+  height: 100%;
+}
+
+#sidebar-wrapper {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.section {
+  border-bottom: 1px solid #b3b3b31e;
+}
+
+.section.last {
+  border-bottom: none;
+}

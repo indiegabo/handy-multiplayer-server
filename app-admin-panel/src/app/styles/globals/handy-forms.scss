@@ -1,0 +1,67 @@
+@use "@angular/material" as mat;
+@use "./app.custom-theme.scss" as custom-theme;
+
+.handy-input {
+  position: relative;
+  padding: 0.5em;
+  outline: none !important;
+  display: inline-block;
+  box-sizing: border-box;
+  border: 1px solid var(--thin-border-color);
+  background-color: custom-theme.$dark-bg-lighter-5;
+  color: custom-theme.$light-primary-text;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.handy-input:focus {
+  border: 1px solid var(--primary-color);
+}
+
+.handy-input.error {
+  border: 1px solid var(--warn-color);
+}
+
+.handy-input:disabled {
+  border: 1px solid var(--thin-border-color);
+  color: custom-theme.$dark-disabled-text !important;
+  cursor: not-allowed;
+}
+
+select.handy-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 1.4em;
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position:
+    calc(100% - 0.72em) calc(50% + 1px),
+    calc(100% - 0.44em) calc(50% + 1px);
+  background-size:
+    0.3em 0.3em,
+    0.3em 0.3em;
+  background-repeat: no-repeat;
+}
+
+select.handy-input::-ms-expand {
+  display: none;
+}
+
+.dark-theme {
+  .handy-input {
+    border: 1px solid var(--thin-border-color);
+  }
+  .handy-input:focus {
+    border: 1px solid var(--primary-color);
+  }
+
+  .handy-input.error {
+    border: 1px solid var(--warn-color);
+  }
+  .handy-input:disabled {
+    color: custom-theme.$light-disabled-text !important;
+  }
+}

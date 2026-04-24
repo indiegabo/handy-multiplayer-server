@@ -1,0 +1,85 @@
+// Spacing utilities - centralized padding and margin helpers
+// Extracted from globals/handy.scss
+
+// Padding helpers
+.p-0 {
+  padding: 0 !important;
+}
+
+.p-05-em {
+  padding: 0.5em !important;
+}
+
+.p-1-em {
+  padding: 1em !important;
+}
+
+.p-1-5-em {
+  padding: 1.5em !important;
+}
+
+.p-2-em {
+  padding: 2em !important;
+}
+
+// Margin helpers
+.m-05-em {
+  margin: 0.5em !important;
+}
+
+.mt-05-em {
+  margin-top: 0.5em !important;
+}
+
+.mr-05-em {
+  margin-right: 0.5em !important;
+}
+
+.mb-05-em {
+  margin-bottom: 0.5em !important;
+}
+
+.ml-05-em {
+  margin-left: 0.5em !important;
+}
+
+.m-1-em {
+  margin: 1em !important;
+}
+.mt-1-em {
+  margin-top: 1em !important;
+}
+
+.mr-1-em {
+  margin-right: 1em !important;
+}
+
+.mb-1-em {
+  margin-bottom: 1em !important;
+}
+
+.ml-1-em {
+  margin-left: 1em !important;
+}
+
+.m-2-em {
+  margin: 2em !important;
+}
+
+.mt-2-em {
+  margin-top: 2em !important;
+}
+
+.mr-2-em {
+  margin-right: 2em !important;
+}
+
+.mb-2-em {
+  margin-bottom: 2em !important;
+}
+
+.ml-2-em {
+  margin-left: 2em !important;
+}
+
+// End of spacing-utilities.scss

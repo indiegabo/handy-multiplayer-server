@@ -2,7 +2,6 @@
 /logs
 /node_modules
 
-/app-admin-panel/package-lock.json
 /app-api/package-lock.json
 /app-system/package-lock.json
 

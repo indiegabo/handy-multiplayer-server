@@ -1,0 +1,65 @@
+<div
+  class="nav-item p-05-em border-radius-5 layout-row align-start"
+  [ngClass]="{
+    'is-child': isChild,
+    active:
+      !item.children && item.route ? router.isActive(item.route, false) : false,
+  }"
+  (click)="onItemSelected(item)"
+>
+  <div
+    class="menu-list-item layout-row align-start-center"
+    [ngStyle]="{
+      'padding-left': depth * 10 + 'px',
+    }"
+    [ngClass]="{
+      active:
+        !item.children && item.route
+          ? router.isActive(item.route, false)
+          : false,
+      expanded: expanded,
+    }"
+  >
+    <!-- ICON -->
+    <div class="flex-40px layout-row align-center-center">
+      @if (item.icon) {
+<fa-icon
+        class="routeIcon gabo-item-sub"
+        [icon]="[item.icon.style, item.icon.name]"
+      ></fa-icon>
+}
+    </div>
+
+    <!-- DISPLAYNAME -->
+    <a class="name frs" [class.active]="item.active">
+      {{ item.displayName | translate }}
+    </a>
+
+    <!-- EXPAND THINGY -->
+    @if (item.children && item.children.length) {
+<mat-icon
+      class="nav-expand-icon"
+      [class.active]="item.active"
+      [@indicatorRotate]="expansionState"
+    >
+      expand_more
+    </mat-icon>
+}
+  </div>
+</div>
+
+<!-- CHILDREN -->
+<div [@grow]="expansionState" class="nav-children">
+  @if (expanded) {
+<ng-container>
+    @for (child of item.children; track trackByIndex($index, child)) {
+<app-navigation-item
+      [item]="child"
+      [isChild]="true"
+      [depth]="depth + 1"
+    >
+    </app-navigation-item>
+}
+  </ng-container>
+}
+</div>

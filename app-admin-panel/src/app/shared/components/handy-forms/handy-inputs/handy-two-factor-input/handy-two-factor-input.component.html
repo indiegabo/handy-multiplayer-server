@@ -1,0 +1,44 @@
+<div class="handy-two-factor-container">
+  @if (loading) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+  <div class="input-fields">
+    @for (
+      _ of [].constructor(codeLength);
+      track trackByIndex($index, _);
+      let i = $index
+    ) {
+      <mat-form-field
+        appearance="outline"
+        [class.error]="isErrorState"
+        [class.success]="isCodeComplete() && !isErrorState"
+      >
+        <input
+          matInput
+          #inputEl
+          type="text"
+          maxlength="1"
+          [value]="code[i]"
+          (input)="onInput($event, i)"
+          (keydown)="onKeyDown($event, i)"
+          [style.border-color]="getBorderColor()"
+          [disabled]="loading"
+        />
+      </mat-form-field>
+    }
+  </div>
+
+  @if (!loading) {
+    <div class="actions">
+      <button
+        mat-stroked-button
+        color="warn"
+        (click)="clear()"
+        [disabled]="code.join('').length === 0"
+      >
+        <mat-icon>close</mat-icon>
+        Clear
+      </button>
+    </div>
+  }
+</div>

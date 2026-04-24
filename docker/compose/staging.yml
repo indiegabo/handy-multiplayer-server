@@ -1,0 +1,137 @@
+# docker-compose.staging.yml
+
+name: ${STACK_NAME:-handy-multiplayer-server-staging}
+
+# -----------------------------------------------------------------------------
+# Volumes
+# -----------------------------------------------------------------------------
+volumes:
+  redis-data:
+    driver: local
+
+# -----------------------------------------------------------------------------
+# Networks
+# -----------------------------------------------------------------------------
+networks:
+  hms-network:
+    name: hms-network
+    driver: bridge
+  hms-internal-network:
+    name: hms-internal-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "172.16.0.0/21"
+
+# -----------------------------------------------------------------------------
+# Services
+# -----------------------------------------------------------------------------
+services:
+  # ---------------------------------------------------------------------------
+  # REDIS — cache & pub/sub
+  # ---------------------------------------------------------------------------
+  hms-redis:
+    container_name: ${STACK_REDIS:-hms-redis}
+    image: "redis:7.2.5"
+    command:
+      - "redis-server"
+      - "/usr/local/etc/redis/redis.conf"
+      - "--requirepass"
+      - "${REDIS_PASSWORD:?REDIS_PASSWORD not set}"
+    volumes:
+      - "redis-data:/data"
+      - "./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro,z"
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'redis-cli -a "$REDIS_PASSWORD" --no-auth-warning PING >/dev/null 2>&1',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks:
+      hms-internal-network:
+        ipv4_address: 172.16.0.4
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # HMS SYSTEM (NestJS) — internal services and status
+  # ---------------------------------------------------------------------------
+  hms-system:
+    container_name: "${STACK_SYSTEM:-hms-system}"
+    build:
+      context: .
+      dockerfile: app-system/docker/Dockerfile
+      target: staging
+    image: ${APP_OWNER}/${STACK_SYSTEM:-hms-system}:staging
+    ports:
+      - "${HMS_SYSTEM_PORT:-8081}:${HMS_SYSTEM_APP_PORT:-3000}"
+    environment:
+      - PORT=${HMS_SYSTEM_APP_PORT:-3000}
+      - NODE_ENV=production
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-fsS",
+          "http://localhost:${HMS_SYSTEM_APP_PORT:-3000}/v1/health",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+    networks:
+      hms-network: {}
+      hms-internal-network:
+        ipv4_address: 172.16.0.3
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:z
+    depends_on:
+      hms-redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # HMS API (NestJS) — API + static Admin SPA (Angular)
+  # ---------------------------------------------------------------------------
+  hms-api:
+    container_name: "${STACK_API:-hms-api}"
+    build:
+      context: .
+      dockerfile: app-api/docker/Dockerfile
+      target: staging
+      args:
+        - ADMIN_BUILD_CONFIG=staging
+    image: ${APP_OWNER}/${STACK_API:-hms-api}:staging
+    ports:
+      - "${HMS_API_PORT:-80}:${HMS_API_APP_PORT:-3000}"
+    environment:
+      - PORT=${HMS_API_APP_PORT:-3000}
+      - NODE_ENV=production
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-fsS",
+          "http://localhost:${HMS_API_APP_PORT:-3000}/v1/health",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+    networks:
+      hms-network: {}
+      hms-internal-network:
+        ipv4_address: 172.16.0.2
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:z
+    depends_on:
+      hms-system:
+        condition: service_healthy
+    restart: unless-stopped

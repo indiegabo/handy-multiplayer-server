@@ -1,0 +1,31 @@
+<div
+  class="nav-short-item border-radius-5 layout-column align-center-center"
+  [ngClass]="{ active: isRouteActive(item) }"
+  [attr.aria-label]="'Button to access ' + item.displayName"
+  [matMenuTriggerFor]="item.children?.length ? childrenMenu : null"
+>
+  <div
+    class="icon layout-row align-center-center"
+    [matTooltip]="item.displayName | translate"
+    matTooltipPosition="right"
+    (click)="onItemSelected(item)"
+  >
+    @if (item.icon) {
+<fa-icon
+      [icon]="[item.icon.style, item.icon.name]"
+    ></fa-icon>
+}
+  </div>
+</div>
+
+<mat-menu #childrenMenu="matMenu" class="children-menu bg-5" xPosition="after">
+  <div class="children-nav-container">
+    @for (item of item.children; track trackByIndex($index, item)) {
+<app-navigation-item
+      [item]="item"
+      [depth]="0"
+      (click)="$event.stopPropagation()"
+    ></app-navigation-item>
+}
+  </div>
+</mat-menu>

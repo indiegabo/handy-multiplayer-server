@@ -1,0 +1,89 @@
+<div class="wrapper layout-column align-center-center">
+  <!-- Loader inicial -->
+  @if (loading) {
+<div class="loader-pulsing"></div>
+}
+
+  <!-- Tela de verificação de conexões -->
+  @if (!loading && !setupComplete) {
+<handy-card
+    class="connections-card"
+    [expandHorizontally]="true"
+  >
+    <handy-card-header>
+      <h2 class="headline-2">System Setup Check</h2>
+      <p class="subtitle-2">Verifying required connections before setup</p>
+    </handy-card-header>
+
+    <handy-card-body>
+      <div class="p-05-em layout-column gap-1">
+        @for (conn of connections; track trackByIndex($index, conn)) {
+<handy-expandable-panel
+          class="connection-status-panel"
+          [disabled]="!conn.error"
+          [expandThroughToggle]="!!conn.error"
+        >
+          <handy-expandable-panel-header>
+            <div
+              class="connection-header layout-row align-start-center gap-1"
+              (click)="toggleErrorDetails(conn.service)"
+            >
+              <span class="service-name">{{ conn.display }}</span>
+
+              <div class="status-indicator layout-row align-start-center">
+                @if (conn.loading) {
+<span class="loader-pulsing"></span>
+}
+                @if (!conn.loading && conn.status) {
+<fa-icon
+                  class="status-icon success"
+                  [icon]="['fas', 'check']"
+                ></fa-icon>
+}
+                @if (!conn.loading && !conn.status) {
+<fa-icon
+                  class="status-icon error"
+                  [icon]="['fas', 'bug']"
+                ></fa-icon>
+}
+              </div>
+            </div>
+          </handy-expandable-panel-header>
+
+          <handy-expandable-panel-body>
+            <div class="error-details">
+              <p>
+                <strong>Error:</strong>
+                {{ conn.error || "Connection failed" }}
+              </p>
+              @if (conn.details) {
+<pre>{{ conn.details | json }}</pre>
+}
+            </div>
+          </handy-expandable-panel-body>
+        </handy-expandable-panel>
+}
+
+        <div class="actions layout-row align-end-center">
+          @if (allConnectionsValid && !checkingConnections) {
+<handy-button
+            (click)="navigateToSetup()"
+          >
+            Proceed to Setup
+          </handy-button>
+}
+
+          @if (!allConnectionsValid && !checkingConnections) {
+<handy-button
+            class="retry-btn"
+            (click)="checkConnections()"
+          >
+            Retry Connections
+          </handy-button>
+}
+        </div>
+      </div>
+    </handy-card-body>
+  </handy-card>
+}
+</div>

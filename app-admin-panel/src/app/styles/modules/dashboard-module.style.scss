@@ -1,0 +1,9 @@
+
+@use '@angular/material' as mat;
+@import "src/app/styles/globals/app.breaking-points.scss";
+@import "src/app/styles/globals/app.custom-theme.scss";
+
+
+.dashboard-sidebar, .dashboard-content {
+  padding: 1em;
+}

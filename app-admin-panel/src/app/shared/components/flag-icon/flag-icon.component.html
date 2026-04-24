@@ -1,0 +1,11 @@
+<div class="layout-row align-center-center">
+  @if (name && ready) {
+<mat-icon
+    [svgIcon]="name"
+    [ngClass]="{ large: size === 'lg' }"
+  ></mat-icon>
+}
+  @if (!name && ready) {
+<fa-icon [icon]="['fas', 'globe']" size="lg"></fa-icon>
+}
+</div>

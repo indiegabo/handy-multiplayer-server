@@ -1,0 +1,78 @@
+name: hms-standalone-postgresql
+
+# ──────────────────────────────────────────────────────────────────────────────
+# VOLUMES
+# ──────────────────────────────────────────────────────────────────────────────
+volumes:
+  postgresql-standalone-data:
+    driver: local
+
+# ──────────────────────────────────────────────────────────────────────────────
+# NETWORKS
+# ──────────────────────────────────────────────────────────────────────────────
+networks:
+  hms-network:
+    external: true
+
+# ──────────────────────────────────────────────────────────────────────────────
+# SERVICES
+# ──────────────────────────────────────────────────────────────────────────────
+services:
+  # ────────────────────────────────────────────────────────────────────────────
+  # STANDALONE POSTGRES
+  #
+  # Standalone PostgreSQL instance for network access and manual schema creation.
+  #
+  # CONNECTION METHODS:
+  #
+  # 1. FROM DOCKER CONTAINERS (inside hms-network):
+  #    - Host: postgres-standalone
+  #    - Port: 5432 (internal port)
+  #    - Username: postgres
+  #    - Password: postgres
+  #    - Database: postgres
+  #
+  # 2. FROM HOST MACHINE OR NETWORK DEVICES (via localhost or LAN IP):
+  #    - Host: localhost (or 192.168.x.x for network devices)
+  #    - Port: 5433 (mapped port)
+  #    - Username: postgres
+  #    - Password: postgres
+  #    - Database: postgres
+  #
+  # USAGE:
+  #   Start:  docker-compose -f docker-compose.pg-standalone.yml up -d
+  #   Stop:   docker-compose -f docker-compose.pg-standalone.yml down
+  #   Logs:   docker logs postgres-standalone
+  # ────────────────────────────────────────────────────────────────────────────
+  postgres-standalone:
+    container_name: postgres-standalone
+    image: "postgres:16.3"
+
+    ports:
+      - "5433:5432"
+
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "postgres"
+      POSTGRES_HOST_AUTH_METHOD: "md5"
+
+    command:
+      - "postgres"
+      - "-c"
+      - "listen_addresses=*"
+      - "-c"
+      - "max_connections=200"
+
+    volumes:
+      - "postgresql-standalone-data:/var/lib/postgresql/data"
+
+    networks:
+      - hms-network
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
