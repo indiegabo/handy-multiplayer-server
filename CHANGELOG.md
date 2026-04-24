@@ -1,3 +1,18 @@
+# [2.36.0](https://github.com/lung-interactive/sg-server/compare/v2.35.2...v2.36.0) (2026-04-24)
+
+
+### Bug Fixes
+
+* **app-admin-panel:** route launcher version navigation through SG prefix ([45ab291](https://github.com/lung-interactive/sg-server/commit/45ab2913e42980d72384d1ffe69ca74f88fd0833))
+* **app-admin-panel:** route SG game navigation to /app/sg paths ([91cb6ba](https://github.com/lung-interactive/sg-server/commit/91cb6bab707cde44f0b70ed1e3d8c55b39a1f3c7))
+* **test:** provide ConfigService in auth send-login-code e2e module ([0a1c9f7](https://github.com/lung-interactive/sg-server/commit/0a1c9f73dd465de578e09bf865a6252f1ad93be7))
+
+
+### Features
+
+* **auth:** gate Twitch OAuth routes when provider is not configured ([250bcfc](https://github.com/lung-interactive/sg-server/commit/250bcfc1ab727cfb145679bc83185a79e9591739))
+* **export:** remove SG test suites from HMS snapshot extraction ([de03e27](https://github.com/lung-interactive/sg-server/commit/de03e27f8a2049aabad93b00678645779c50e122))
+
 ## [2.35.2](https://github.com/lung-interactive/sg-server/compare/v2.35.1...v2.35.2) (2026-04-24)
 
 
